@@ -328,7 +328,7 @@ gulp.task('fonts', function () {
  ========================================================================== */
 gulp.task('clean', function (done) {
   return del([
-    distPath + '**'
+    distPath + '[!.gitkeep]**'
   ], done)
 })
 
