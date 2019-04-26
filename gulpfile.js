@@ -152,9 +152,9 @@ gulp.task('lint-sass', function () {
 
 gulp.task('inject-critical-css', ['styles'], function () {
   return gulp.src(config.html)
-    .pipe(plugins.inject(gulp.src(config.criticalCSS), {
+    .pipe(plugins.inject(gulp.src(config.dist.criticalCSS), {
       transform: function (filepath, file, i, length) {
-        return fs.readFileSync('.' + filepath, 'utf8')
+        return '<style>' + fs.readFileSync('.' + filepath, 'utf8') + '</style>'
       },
       starttag: '<!-- inject:css -->',
       endtag: '<!-- endinject -->'
@@ -343,7 +343,7 @@ gulp.task('watch', function () {
   })
 
   // Styles
-  gulp.watch(config.scss, ['styles'])
+  gulp.watch(config.scss, ['inject-critical-css'])
 
   // Scripts
   gulp.watch(config.js.all, ['scripts-dev'])

@@ -5,6 +5,7 @@
   },
   "dist": {
     "css": "<=distPath>css",
+    "criticalCSS": "<=distPath>css/critical.min.css",
     "js": "<=distPath>js",
     "img": "<=distPath>img",
     "fonts": "<=distPath>fonts",
@@ -13,10 +14,9 @@
   "scssFolder": "<=resourcesPath>scss/",
   "img": "<=resourcesPath>img/**/*.{png,jpg,jpeg,gif,svg,webp}",
   "fonts": "<=resourcesPath>fonts/**/*.{eot,svg,ttf,woff,woff2}",
-  "scss": "<=resourcesPath>scss/**/*.s{a,c}ss",
+  "scss": "<=resourcesPath>scss/**/{critical,style}.s{a,c}ss",
   "html": "**/*.html",
   "cdn": "<=resourcesPath>scss/_cdn.sass",
-  "criticalCSS": "<=distPath>css/critical.min.css",
   "js": {
     "app": "<=resourcesPath>js/app.js",
     "all": "<=resourcesPath>js/**/*.js",
