@@ -1,0 +1,10 @@
+.idea
+.DS_Store
+.sass-cache/
+.buildpath
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+node_modules/
+*.php~

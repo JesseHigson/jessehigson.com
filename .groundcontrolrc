@@ -1,0 +1,34 @@
+{
+  "vars": {
+    "distPath": "assets/dist/",
+    "resourcesPath": "assets/src/"
+  },
+  "dist": {
+    "css": "<=distPath>css",
+    "js": "<=distPath>js",
+    "img": "<=distPath>img",
+    "fonts": "<=distPath>fonts",
+    "styleguide": "<=distPath>styleguide"
+  },
+  "scssFolder": "<=resourcesPath>scss/",
+  "img": "<=resourcesPath>img/**/*.{png,jpg,jpeg,gif,svg,webp}",
+  "fonts": "<=resourcesPath>fonts/**/*.{eot,svg,ttf,woff,woff2}",
+  "scss": "<=resourcesPath>scss/**/*.s{a,c}ss",
+  "html": "**/*.html",
+  "cdn": "<=resourcesPath>scss/_cdn.sass",
+  "js": {
+    "app": "<=resourcesPath>js/app.js",
+    "all": "<=resourcesPath>js/**/*.js",
+    "other": [],
+    "addAsync": "true"
+  },
+  "autoprefixer": {
+    "grid": true
+  },
+  "parameters": "config/parameters.yml",
+  "liveReloadFiles": [
+    "<=distPath>css/style.min.css",
+    "<=distPath>js/*.js",
+    "**/*.html"
+  ]
+}

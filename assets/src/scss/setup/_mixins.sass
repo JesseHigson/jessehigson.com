@@ -1,0 +1,31 @@
+@function between($from, $to, $fromWidth, $toWidth)
+  $slope: ($from - $to) / ($fromWidth - $toWidth)
+  $base: $to - $slope * $toWidth
+
+  @return calc(#{$base} + #{100vw * $slope})
+
+=clamp($property, $from, $to, $fromWidth, $toWidth)
+  #{$property}: $from
+
+  @media (min-width: $fromWidth)
+    #{$property}: between($from, $to, $fromWidth, $toWidth)
+
+  @media (min-width: $toWidth)
+    #{$property}: $to
+
+=primaryFont
+  font-family: serif
+  .font-primary-font-loaded &
+    font-family: $primaryFont
+
+=secondaryFont
+  font-family: serif
+  .font-secondary-font-loaded &
+    font-family: $secondaryFont
+
+=cover($padding: 0)
+  bottom: $padding
+  left: $padding
+  position: absolute
+  right: $padding
+  top: $padding
