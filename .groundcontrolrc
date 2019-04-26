@@ -14,8 +14,8 @@
   "scssFolder": "<=resourcesPath>scss/",
   "img": "<=resourcesPath>img/**/*.{png,jpg,jpeg,gif,svg,webp}",
   "fonts": "<=resourcesPath>fonts/**/*.{eot,svg,ttf,woff,woff2}",
-  "scss": "<=resourcesPath>scss/**/{critical,style}.s{a,c}ss",
-  "html": "**/*.html",
+  "scss": "<=resourcesPath>scss/**/*.s{a,c}ss",
+  "html": ["**/*.html", "!node_modules/{,**}"],
   "cdn": "<=resourcesPath>scss/_cdn.sass",
   "js": {
     "app": "<=resourcesPath>js/app.js",
@@ -28,7 +28,7 @@
   },
   "parameters": "config/parameters.yml",
   "liveReloadFiles": [
-    "<=distPath>css/style.min.css",
+    "<=distPath>css/*.css",
     "<=distPath>js/*.js",
     "**/*.html"
   ]
