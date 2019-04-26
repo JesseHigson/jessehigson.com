@@ -14,12 +14,6 @@
 /* eslint no-extend-native: "off" */
 
 /**
- * Comment out this line if you do not need to import Babel polyfills to enable
- * ES2017+ features such as async/await for older browsers
- */
-import '@babel/polyfill'
-
-/**
  * Polyfill for the InsersectionObserver class, to support lazy loading
  */
 import 'intersection-observer'
@@ -39,7 +33,7 @@ Array.prototype.fill = Array.prototype.fill || function (value) {
     throw new TypeError('this is null or not defined')
   }
 
-  var O = Object(this)
+  var O = new Object(this)
   var len = O.length >>> 0
   var start = arguments[1]
   var relativeStart = start >> 0
@@ -64,7 +58,7 @@ Array.prototype.fill = Array.prototype.fill || function (value) {
  * @param {Function} f
  */
 Number.prototype.times = Number.prototype.times || function (f) {
-  return Array(this.valueOf()).fill().map((_, i) => f(i))
+  return new Array(this.valueOf()).fill().map((_, i) => f(i))
 }
 
 /**
@@ -137,7 +131,7 @@ function polyfill () {
   /**
    * Run the object-fit-images polyfill
    */
-  const images = Array.from(document.getElementsByTagName('img')).filter(image => !('src' in image.dataset))
+  const images = [...document.getElementsByTagName('img')].filter(image => !('src' in image.dataset))
   objectFitImages(images)
 }
 
