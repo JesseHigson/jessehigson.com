@@ -149,6 +149,19 @@ gulp.task('lint-sass', function () {
 
 /* Stylesheets
  ========================================================================== */
+
+gulp.task('inject-critical-css', ['styles'], function () {
+  return gulp.src(config.html)
+    .pipe(plugins.inject(gulp.src(config.criticalCSS), {
+      transform: function (filepath, file, i, length) {
+        return fs.readFileSync('.' + filepath, 'utf8')
+      },
+      starttag: '<!-- inject:css -->',
+      endtag: '<!-- endinject -->'
+    }))
+    .pipe(gulp.dest('.'))
+})
+
 gulp.task('styles', ['inject-cdn-url'], function () {
   return gulp.src(config.scss)
     // Sass
@@ -343,7 +356,7 @@ gulp.task('watch', function () {
 gulp.task('build', function (done) {
   runSequence(
     'clean',
-    ['styles', 'inject-prod-scripts', 'images', 'fonts'],
+    ['inject-critical-css', 'inject-prod-scripts', 'images', 'fonts'],
     done
   )
 })
@@ -359,7 +372,7 @@ gulp.task('build-deploy', function (done) {
 gulp.task('default', function (done) {
   runSequence(
     'clean',
-    ['inject-dev-scripts', 'images', 'fonts', 'styles'],
+    ['inject-dev-scripts', 'images', 'fonts', 'inject-critical-css'],
     ['watch'],
     done
   )

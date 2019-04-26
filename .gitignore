@@ -8,3 +8,5 @@
 *.sublime-workspace
 node_modules/
 *.php~
+assets/dist/*
+!assets/dist/.gitkeep
