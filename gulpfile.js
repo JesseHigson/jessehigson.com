@@ -98,9 +98,9 @@ headerLines = function (message) {
  ========================================================================== */
 var addAsyncTag = function (filepath, file, i, length) {
   if (config.js.addAsync === 'true') {
-    return '<script src="{{ asset("' + filepath + '", "keycdn") }}" async data-turbolinks-eval="false" crossorigin="anonymous"></script>'
+    return '<script src="' + filepath + '" async data-turbolinks-eval="false" crossorigin="anonymous"></script>'
   } else {
-    return '<script src="{{ asset("' + filepath + '", "keycdn") }}" data-turbolinks-eval="false" crossorigin="anonymous"></script>'
+    return '<script src="' + filepath + '" data-turbolinks-eval="false" crossorigin="anonymous"></script>'
   }
 }
 
@@ -237,8 +237,8 @@ gulp.task('scripts-dev', function () {
     // Handle errors gracefully
     .plugin('errorify')
 
-    // Minify modules
-    .transform('uglifyify', { global: true })
+  // Minify modules
+  // .transform('uglifyify', { global: true })
 
     // Transpile ES6+ syntax
     .transform('babelify')
@@ -266,7 +266,7 @@ gulp.task('inject-dev-scripts', ['scripts-dev'], function () {
       transform: function (filepath) {
         const lr = '<script src="http://localhost:35729/livereload.js" async data-turbolinks-eval="false"></script>\n'
         // Concatenate the livereload snippet and JS files
-        return lr + inject.transform.apply(inject.transform, arguments)
+        return lr + addAsyncTag.apply(inject.transform, arguments)
       }
     }))
 

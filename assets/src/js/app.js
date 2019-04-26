@@ -10,7 +10,7 @@ import { bind } from 'decko'
 // Import components
 import ImageLazyLoader from './components/image-lazy-loader'
 import Animator from './components/animator'
-import FontLoader from './font-loader';
+import FontLoader from './font-loader'
 
 /**
  * The main wrapper around our app's functionality
@@ -24,12 +24,11 @@ class App {
    * @type {object}
    */
   components = {}
-  
+
   /**
    * Create the application instance
    */
-  constructor() {
-
+  constructor () {
     this.refreshHtmlClasses(document.body)
 
     // Start the font loader
@@ -46,7 +45,7 @@ class App {
    */
   registerCSSOnLoadEvent () {
     const stylesheets = document.styleSheets
-    const promises = Array.from(stylesheets).map(stylesheet => {
+    const promises = [...stylesheets].map(stylesheet => {
       return new Promise((resolve, reject) => {
         // Stylesheets embedded in style tags will not have a href, and will never
         // fire the load event
@@ -100,11 +99,10 @@ class App {
       })
   }
 
-
   /**
    * Register individual application components here
    */
-  registerComponents() {
+  registerComponents () {
     // Create the image lazy loader. To handle different groups of images,
     // create individual ImageLazyLoader instances for each selector
     this.components.imageLazyLoader = new ImageLazyLoader('img[data-lazy-load-src], img[data-lazy-load-srcset], picture source[data-lazy-load-srcset]')

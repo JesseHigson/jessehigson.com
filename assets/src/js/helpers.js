@@ -4,7 +4,7 @@
  * @param {HTMLElement} element
  * @param {object}      offset
  *
- * @return {bool}
+ * @return {boolean}
  */
 export function isInViewport (element, offset = { x: 0, y: 0 }) {
   const { top, left, bottom, right } = element.getBoundingClientRect()
@@ -39,6 +39,7 @@ export function ease (t) {
  * @param {number}   to
  * @param {number}   duration
  * @param {function} callback
+ * @param {function} easing
  *
  * @return {void}
  */
@@ -114,4 +115,10 @@ export function scrollToPosition (position = 0, duration = 500) {
   })
 }
 
+/**
+ * @param {number} min
+ * @param {number} max
+ *
+ * @return {number}
+ */
 export const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
