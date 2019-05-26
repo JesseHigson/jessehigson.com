@@ -51,21 +51,25 @@ section {
 			transform: translate(-50%,-50%);
 			width: 100vw;
 
-			@media screen and (prefers-reduced-motion: reduce) {
-				animation: none;
-			}
-
 			&:nth-child(1) {
 				color: red;
 				margin-left: 8px;
 				margin-top: -2px;
 				filter: blur(2px);
+
+				@media screen and (prefers-reduced-motion: reduce) {
+					display: none;
+				}
 			}
 
 			&:nth-child(2) {
 				color: green;
 				margin-left: 7px;
 				filter: blur(2px);
+								
+				@media screen and (prefers-reduced-motion: reduce) {
+					display: none;
+				}
 			}
 
 			&:nth-child(3) {
@@ -74,9 +78,9 @@ section {
 				margin-top: 4px;
 				filter: blur(2px);
 				animation: jerkblue .5s infinite;
-
+								
 				@media screen and (prefers-reduced-motion: reduce) {
-					animation: none;
+					display: none;
 				}
 			}
 
@@ -89,8 +93,16 @@ section {
 			&:nth-child(5) {
 				color:rgba(255,255,255,0.4);
 				filter: blur(15px);
+								
+				@media screen and (prefers-reduced-motion: reduce) {
+					display: none;
+				}
 			}
 
+			@media screen and (prefers-reduced-motion: reduce) {
+				animation: none !important;
+				filter: none !important;
+			}
 		}
 	}
 }
