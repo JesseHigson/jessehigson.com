@@ -1,0 +1,13 @@
+{
+  "vars": {
+    "distPath": "assets/dist/",
+    "resourcesPath": "assets/src/"
+  },
+  "dist": {
+    "css": "<=distPath>css"
+  },
+  "scss": "<=resourcesPath>scss/**/*.s{a,c}ss",
+  "autoprefixer": {
+    "grid": true
+  }
+}
