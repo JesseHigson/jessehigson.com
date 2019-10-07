@@ -1,0 +1,4 @@
+environment: dev
+url: 'http://static-site-template.jesse.superrb.build'
+cdn_url: 'http://static-site-template.jesse.superrb.build'
+form_url: ''

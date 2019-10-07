@@ -8,5 +8,9 @@
 *.sublime-workspace
 node_modules/
 *.php~
-assets/dist/*
-!assets/dist/.gitkeep
+_config/parameters.yml
+_site/
+!_site/.gitkeep
+.env
+.bundle/
+vendor/

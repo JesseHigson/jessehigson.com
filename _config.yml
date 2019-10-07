@@ -1,0 +1,29 @@
+# Site settings
+title: Static Site Template
+name: Static Site Template
+logo: /img/logo.svg
+email: tech@superrb.com
+baseurl: ''
+url: ''
+cdn_url: ''
+environment: production
+
+keep_files:
+  - assets
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - gulpfile.js
+  - node_modules
+  - package-lock.json
+  - package.json
+  - README.md
+  - serverupdate.sh
+  - tags
+  - vendor
+  - yarn.lock
+
+# Include a couple plugins
+gems:
+  - jekyll-sitemap

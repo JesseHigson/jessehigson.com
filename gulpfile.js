@@ -1,5 +1,7 @@
 'use strict'
 
+require('dotenv').config({ path: '.env' })
+
 /* ==========================================================================
  Gulpfile
 
@@ -14,6 +16,7 @@
  ========================================================================== */
 // Require
 var gulp = require('gulp')
+var gutil = require('gulp-util')
 var del = require('del')
 var fs = require('fs')
 var path = require('path')
@@ -46,6 +49,8 @@ var imagemin = require('gulp-imagemin')
 var buffer = require('gulp-buffer')
 var plugins = require('gulp-load-plugins')()
 var yaml = require('yaml').parse
+var imageResize = require('gulp-image-resize')
+var spawn = require('child_process').spawn
 
 // Gulp Config
 var showErrorNotifications = true
@@ -63,6 +68,9 @@ _.forEach(vars, function (value, key) { // eslint-disable-line unicorn/no-fn-ref
 })
 
 config = JSON.parse(config)
+
+// The current environment
+var env = process.env.ENVIRONMENT || 'production'
 
 /* Errorhandling
  ========================================================================== */
@@ -97,10 +105,17 @@ headerLines = function (message) {
 /* Add Async tag to script
  ========================================================================== */
 var addAsyncTag = function (filepath, file, i, length) {
+  let baseUrl = ''
+  const fileContent = yaml(fs.readFileSync(config.parameters, 'utf8'))
+
+  if (('parameters' in fileContent) && ('keycdn.base_url' in fileContent.parameters)) {
+    baseUrl = fileContent.parameters['keycdn.base_url']
+  }
+
   if (config.js.addAsync === 'true') {
-    return '<script src="' + filepath + '" async data-turbolinks-eval="false" crossorigin="anonymous"></script>'
+    return '<script src="' + baseUrl + filepath + '" async data-turbolinks-eval="false" crossorigin="anonymous"></script>'
   } else {
-    return '<script src="' + filepath + '" data-turbolinks-eval="false" crossorigin="anonymous"></script>'
+    return '<script src="' + baseUrl + filepath + '" data-turbolinks-eval="false" crossorigin="anonymous"></script>'
   }
 }
 
@@ -151,7 +166,7 @@ gulp.task('lint-sass', function () {
  ========================================================================== */
 
 gulp.task('inject-critical-css', ['styles'], function () {
-  return gulp.src(config.html)
+  return gulp.src(config.criticalCSS.folder + '/' + config.criticalCSS.filename)
     .pipe(plugins.inject(gulp.src(config.dist.criticalCSS), {
       transform: function (filepath, file, i, length) {
         return '<style>' + fs.readFileSync('.' + filepath, 'utf8') + '</style>'
@@ -159,7 +174,7 @@ gulp.task('inject-critical-css', ['styles'], function () {
       starttag: '<!-- inject:css -->',
       endtag: '<!-- endinject -->'
     }))
-    .pipe(gulp.dest('.'))
+    .pipe(gulp.dest(config.criticalCSS.folder))
 })
 
 gulp.task('styles', ['inject-cdn-url'], function () {
@@ -195,7 +210,16 @@ gulp.task('styles', ['inject-cdn-url'], function () {
  ========================================================================== */
 // Production
 gulp.task('scripts-prod', function () {
-  return browserify(config.js.app)
+  return browserify({
+    debug: false,
+    entries: [config.js.app],
+    insertGlobalVars: {
+      environment: function (file, dir) {
+        return '"prod"'
+      }
+    }
+  })
+
     // Minify modules
     .transform('uglifyify', { global: true })
     // Transpile ES6+ syntax
@@ -220,20 +244,29 @@ gulp.task('scripts-prod', function () {
 })
 
 gulp.task('inject-prod-scripts', ['scripts-prod'], function () {
-  return gulp.src(config.html)
+  return gulp.src(config.scripts.folder + '/' + config.scripts.filename)
     // Inject
     .pipe(inject(gulp.src(config.dist.js + '/**/*.js'), {
       transform: addAsyncTag,
-      ignorePath: '/web'
+      ignorePath: '/_site'
     }))
 
     // Write
-    .pipe(gulp.dest('.'))
+    .pipe(gulp.dest(config.scripts.folder))
 })
 
 // Development
 gulp.task('scripts-dev', function () {
-  return browserify(config.js.app)
+  return browserify({
+    debug: true,
+    entries: [config.js.app],
+    insertGlobalVars: {
+      environment: function (file, dir) {
+        return '"dev"'
+      }
+    }
+  })
+
     // Handle errors gracefully
     .plugin('errorify')
 
@@ -259,7 +292,7 @@ gulp.task('scripts-dev', function () {
 gulp.task('inject-dev-scripts', ['scripts-dev'], function () {
   var files = gulp.src(config.dist.js + '/**/*.js', { read: false })
 
-  return gulp.src(config.html)
+  return gulp.src(config.scripts.folder + '/' + config.scripts.filename)
 
     // Inject
     .pipe(inject(files, {
@@ -267,26 +300,83 @@ gulp.task('inject-dev-scripts', ['scripts-dev'], function () {
         const lr = '<script src="http://localhost:35729/livereload.js" async data-turbolinks-eval="false"></script>\n'
         // Concatenate the livereload snippet and JS files
         return lr + addAsyncTag.apply(inject.transform, arguments)
-      }
+      },
+      ignorePath: '/_site'
     }))
 
     // Write
-    .pipe(gulp.dest('.'))
+    .pipe(gulp.dest(config.scripts.folder))
 
     // Reload browser window
     .pipe(livereload())
 })
 
+/* HTML
+ ========================================================================== */
+
+gulp.task('html', () => {
+  const args = {
+    dev: [
+      'exec',
+      'jekyll',
+      'build',
+      '--trace',
+      '--drafts',
+      '--config',
+      '_config.yml,_config.dev.yml'
+    ],
+    staging: [
+      'exec',
+      'jekyll',
+      'build',
+      '--config',
+      '_config.yml,_config.staging.yml'
+    ],
+    production: [
+      'exec',
+      'jekyll',
+      'build'
+    ]
+  }
+
+  return spawn('bundle', args[env], {
+    stdio: 'inherit'
+  })
+})
+
 /* Images
  ========================================================================== */
-gulp.task('images', function () {
-  var sink = clone.sink()
+var resizeTasks = []
+var sizes = [500, 1000, 1500, 2000, 2800]
 
-  return gulp.src(config.img)
+sizes.forEach(function (size) {
+  var taskName = 'resize-images-' + size
+  gulp.task(taskName, function () {
+    return gulp.src(config.img)
+      // Only optimize changed images
+      .pipe(changed(config.dist.img))
+      .pipe(imageResize({
+        filter: 'Catrom',
+        imageMagick: true,
+        interlace: true,
+        noProfile: true,
+        quality: 0.5,
+        width: size
+      }))
+      .pipe(rename(function (path) { return path.basename + '-' + size }))
+      .pipe(gulp.dest(config.dist.img + '/resized/' + size))
+
+      // Reload browser window
+      .pipe(livereload())
+  })
+  resizeTasks.push(taskName)
+})
+
+gulp.task('images', resizeTasks, function () {
+  // Imagemin
+  return gulp.src([config.img, config.svg])
     // Only optimize changed images
     .pipe(changed(config.dist.img))
-
-    // Imagemin
     .pipe(imagemin({
       optimizationLevel: 3,
       progressive: true,
@@ -294,10 +384,6 @@ gulp.task('images', function () {
         removeViewBox: false
       }]
     }))
-
-    .pipe(sink) // clone image
-    .pipe(webp()) // convert cloned image to WebP
-    .pipe(sink.tap()) // restore original image
 
     // Set destination
     .pipe(gulp.dest(config.dist.img))
@@ -350,6 +436,9 @@ gulp.task('watch', function () {
 
   // Images
   gulp.watch(config.img, ['images'])
+
+  // HTML
+  gulp.watch(config.html, ['html'])
 })
 
 // Build
@@ -357,6 +446,7 @@ gulp.task('build', function (done) {
   runSequence(
     'clean',
     ['inject-critical-css', 'inject-prod-scripts', 'images', 'fonts'],
+    'html',
     done
   )
 })
@@ -373,6 +463,7 @@ gulp.task('default', function (done) {
   runSequence(
     'clean',
     ['inject-dev-scripts', 'images', 'fonts', 'inject-critical-css'],
+    'html',
     ['watch'],
     done
   )
