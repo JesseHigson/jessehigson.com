@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no" />
+
+    {% include head/critical-css.html %}
+    {% include head/favicons.html %}
+    {% include head/seo.html %}
+    {% include head/fonts.html %}
+    {% include head/css.html %}
+    {% include head/scripts.html %}
+  </head>
+
+  <body class="{{ page.body_class | default: 'page' }}">
+    <nav id="skip-to">
+      <a href="#main-content">Skip to content</a>
+      <a href="#main-nav">Skip to nav</a>
+    </nav>
+
+    <a id="top"></a>
+
+    <header id="header" class="header" data-turbolinks-permanent>
+      <div class="header__container container container--flex" id="main-nav">
+        <a class="header__logo" href="/">
+          <img class="header__logo-img" data-lazy-load-src="{{ site.cdn_url }}/assets/dist/img/logo.svg" alt="Logo" />
+        </a>
+      </div>
+    </header>
+
+    <main role="main">
+      {{ content }}
+    </main>
+
+    <footer class="footer">
+      <div class="footer__container container container--flex">
+        <span class="footer__attribution">
+          &copy; Website 2019. Website by <a href="https://www.superrb.com" title="Website by Superrb" target="_blank" rel="nofollow noopener">Superrb</a>.
+        </span>
+        </div>
+      </div>
+    </footer>
+
+    <nav id="back-to-top">
+      <a href="#top">Back to top</a>
+    </nav>
+
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "url": "",
+        "logo": "{{ site.cdn_url }}/assets/dist/img/logo.svg",
+        "email": "",
+        "address": ""
+      }
+    </script>
+  </body>
+</html>
