@@ -8,7 +8,6 @@
 *.sublime-workspace
 node_modules/
 *.php~
-_config/parameters.yml
 _site/
 !_site/.gitkeep
 .env
