@@ -14,6 +14,12 @@
 /* eslint no-extend-native: "off" */
 
 /**
+ * Comment out this line if you do not need to import Babel polyfills to enable
+ * ES2017+ features such as async/await for older browsers
+ */
+import '@babel/polyfill'
+
+/**
  * Polyfill for the InsersectionObserver class, to support lazy loading
  */
 import 'intersection-observer'
