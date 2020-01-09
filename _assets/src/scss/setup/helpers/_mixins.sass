@@ -14,12 +14,14 @@
     #{$property}: $to
 
 =primaryFont
-  font-family: serif
+  font-family: $primaryFontStack
+
   .font-primary-font-loaded &
     font-family: $primaryFont
 
 =secondaryFont
-  font-family: serif
+  font-family: $secondaryFontStack
+
   .font-secondary-font-loaded &
     font-family: $secondaryFont
 
@@ -29,3 +31,30 @@
   position: absolute
   right: $padding
   top: $padding
+
+=pseudoBasics
+  display: block
+  content: ""
+  position: absolute
+
+=gutterLeft
+  padding-left: $gutterMobile
+
+  @media (min-width: $tablet)
+    padding-left: $gutterTablet
+
+  @media (min-width: $smallDesktop)
+    padding-left: $gutterDesktop
+
+=gutterRight
+  padding-right: $gutterMobile
+
+  @media (min-width: $tablet)
+    padding-right: $gutterTablet
+
+  @media (min-width: $smallDesktop)
+    padding-right: $gutterDesktop
+
+=gutters
+  +gutterLeft
+  +gutterRight
