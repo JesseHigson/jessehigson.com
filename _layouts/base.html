@@ -22,26 +22,13 @@
 
     <a id="top"></a>
 
-    <header id="header" class="header" data-turbolinks-permanent>
-      <div class="header__container container container--flex" id="main-nav">
-        <a class="header__logo" href="/">
-          <img class="header__logo-img" data-lazy-load-src="{{ site.cdn_url }}/assets/dist/img/logo.svg" alt="Logo" />
-        </a>
-      </div>
-    </header>
+    {% include components/header.html %}
 
     <main role="main">
       {{ content }}
     </main>
 
-    <footer class="footer">
-      <div class="footer__container container container--flex">
-        <span class="footer__attribution">
-          &copy; Website 2019. Website by <a href="https://www.superrb.com" title="Website by Superrb" target="_blank" rel="nofollow noopener">Superrb</a>.
-        </span>
-        </div>
-      </div>
-    </footer>
+    {% include components/footer.html %}
 
     <nav id="back-to-top">
       <a href="#top">Back to top</a>
