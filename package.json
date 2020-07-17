@@ -19,7 +19,7 @@
     "gulp-size": "3.0.0",
     "gulp-uglify": "3.0.2",
     "gulp-util": "3.0.8",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "map-stream": "0.0.7",
     "node-notifier": "5.4.0",
     "object-fit-images": "^3.2.4",
