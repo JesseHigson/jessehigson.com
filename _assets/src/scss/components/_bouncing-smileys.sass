@@ -1,0 +1,38 @@
+$size: 7em
+
+.bouncing-smiley
+  display: block
+  width: $size
+  height: $size
+  position: absolute
+  z-index: -1000
+
+  &--sad
+    animation: moveX 7s linear 0s infinite alternate, moveY 8s linear 0s infinite alternate, spin 8s linear 0s infinite
+
+  &--happy
+    animation: moveX 7s linear 0s infinite alternate-reverse, moveY 8s linear 0s infinite alternate-reverse, spin 8s linear 0s infinite reverse
+
+  @media (prefers-reduced-motion: reduce)
+    display: none !important
+
+@keyframes moveX
+  0%
+    left: 0
+
+  100%
+    left: calc(100% - #{$size})
+
+@keyframes moveY
+  0%
+    top: 0
+
+  100%
+    top: calc(100% - #{$size})
+
+@keyframes spin
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(360deg)
