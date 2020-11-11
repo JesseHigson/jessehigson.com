@@ -2,10 +2,11 @@
 
 # Pull from repository
 if [[ "$(hostname)" == *.local ]]; then
-  git fetch || git rebase -p --autostash FETCH_HEAD
+  git fetch
+  git rebase -p --autostash FETCH_HEAD
 else
-  git reset HEAD --hard
-  git pull origin master
+  git fetch
+  git reset --hard FETCH_HEAD
 fi
 
 if [[ ! -f '_config/parameters.yml' ]]; then
