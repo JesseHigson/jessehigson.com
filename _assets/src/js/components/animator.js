@@ -1,4 +1,3 @@
-import objectFitImages from 'object-fit-images'
 import LiveNodeList from 'live-node-list'
 import { bind } from 'decko'
 

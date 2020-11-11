@@ -1,4 +1,3 @@
-import objectFitImages from 'object-fit-images'
 import LiveNodeList from 'live-node-list'
 import { bind } from 'decko'
 import { isInViewport } from '../helpers'
@@ -187,8 +186,6 @@ export default class ImageLazyLoader {
         if (slideshow && slideshow.magicRoundabout) {
           slideshow.magicRoundabout.transition()
         }
-
-        objectFitImages(image)
         
         resolve(true)
       })

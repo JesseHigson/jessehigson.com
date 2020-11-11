@@ -27,7 +27,6 @@ var runSequence = require('run-sequence')
 var rev = require('gulp-rev')
 var postcss = require('gulp-postcss')
 var autoprefixer = require('autoprefixer')
-var objectFitImages = require('postcss-object-fit-images')
 var flexbugs = require('postcss-flexbugs-fixes')
 var cssvariables = require('postcss-css-variables')
 var sass = require('gulp-sass')
@@ -184,7 +183,7 @@ gulp.task('styles', ['inject-cdn-url'], function () {
       .on('error', sass.logError))
 
     // Prefix where needed
-    .pipe(postcss([objectFitImages, flexbugs, cssvariables, autoprefixer(config.autoprefixer)]))
+    .pipe(postcss([flexbugs, cssvariables, autoprefixer(config.autoprefixer)]))
 
     // Minify output
     .pipe(minifyCss())

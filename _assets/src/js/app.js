@@ -10,7 +10,6 @@ import { bind } from 'decko'
 // Import components
 import ImageLazyLoader from './components/image-lazy-loader'
 import Animator from './components/animator'
-import FontLoader from './font-loader'
 import Favicon from './components/favicon'
 
 /**
@@ -32,13 +31,8 @@ class App {
   constructor () {
     this.refreshHtmlClasses(document.body)
 
-    // Start the font loader
-    this.fontLoader = new FontLoader()
-
     this.registerComponents()
     this.registerCSSOnLoadEvent()
-
-    polyfill()
   }
 
   /**
