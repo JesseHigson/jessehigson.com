@@ -11,6 +11,7 @@ import { bind } from 'decko'
 import ImageLazyLoader from './components/image-lazy-loader'
 import Animator from './components/animator'
 import FontLoader from './font-loader'
+import Favicon from './components/favicon'
 
 /**
  * The main wrapper around our app's functionality
@@ -107,6 +108,7 @@ class App {
     // create individual ImageLazyLoader instances for each selector
     this.components.imageLazyLoader = new ImageLazyLoader('img[data-lazy-load-src], img[data-lazy-load-srcset], picture source[data-lazy-load-srcset]')
     this.components.animator = new Animator('.animate-on-scroll')
+    this.components.favicon = new Favicon()
   }
 
   /**
