@@ -11,6 +11,7 @@ import { bind } from 'decko'
 import ImageLazyLoader from './components/image-lazy-loader'
 import Animator from './components/animator'
 import Favicon from './components/favicon'
+import SongFeed from './components/song-feed'
 
 /**
  * The main wrapper around our app's functionality
@@ -103,6 +104,7 @@ class App {
     this.components.imageLazyLoader = new ImageLazyLoader('img[data-lazy-load-src], img[data-lazy-load-srcset], picture source[data-lazy-load-srcset]')
     this.components.animator = new Animator('.animate-on-scroll')
     this.components.favicon = new Favicon()
+    this.components.songFeed = new SongFeed()
   }
 
   /**
