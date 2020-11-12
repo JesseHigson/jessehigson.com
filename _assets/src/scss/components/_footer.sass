@@ -1,18 +1,38 @@
 .footer
+  padding: $baseline 0
   position: absolute
-  bottom: $baseline
+  bottom: 0
   left: 0
   right: 0
-  text-align: right
+
+  @media (min-width: $largeMobile)
+    flex-wrap: nowrap
 
   &__container
     justify-content: space-between
+    flex-wrap: wrap
+
+    @media (min-width: $largeMobile)
+      flex-wrap: nowrap
 
   &__list
+    flex: 0 0 100%
     display: flex
     list-style: none
-    margin: 0
+    margin: 0 0 $baseline
+    flex-wrap: wrap
+    align-items: flex-start
+
+    @media (min-width: $largeMobile)
+      flex-basis: auto
+      flex-wrap: nowrap
+      margin: 0
 
     &-item
+      flex: 0 0 100%
+
+      @media (min-width: $largeMobile)
+        flex-basis: auto
+
       &:not(:last-of-type)
         margin: 0 $baseline 0 0
