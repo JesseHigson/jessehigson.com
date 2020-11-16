@@ -46,7 +46,6 @@ export default class SongFeed {
     }
 
     this.authenticateSpotify()
-
     this.getLastfmTrack()
 
     this.feedContainer.on('update', (newItems, oldItems) => {
@@ -84,7 +83,7 @@ export default class SongFeed {
 
     spotifyApi.searchTracks(query, { limit: 1 })
       .then(data => {
-        this.injectSpotifyElements(data)
+        this.injectElements(data)
       })
   }
 
@@ -116,25 +115,7 @@ export default class SongFeed {
    *
    */
   @bind
-  injectLastfmElements(data) {
-    this.feedContainer.pause()
-
-    const resultsData = Object.keys(data.toptracks.track).map(id => `
-      My favourite song this week is 
-      <a href="${ data.toptracks.track[id].url }" target="_blank" class="song-feed__link link">
-        ${ data.toptracks.track[id].name } by ${ data.toptracks.track[id].artist.name }
-      </a>
-    `).join('')
-
-    this.feedContainer.item.innerHTML = resultsData
-    this.feedContainer.resume()
-  }
-
-  /**
-   *
-   */
-  @bind
-  injectSpotifyElements(data) {
+  injectElements(data) {
     this.feedContainer.pause()
 
     const resultsData = Object.keys(data.tracks.items).map(id => `
