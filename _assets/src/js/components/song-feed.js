@@ -17,12 +17,6 @@ const LAST_FM_USER = `jessehigson`
  */
 const LAST_FM_API_URL = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=` + LAST_FM_USER + `&api_key=` + LAST_FM_API_KEY + `&format=json&period=7day&limit=1`
 
-/**
- * @type {string}
- */
-const SPOTIFY_AUTHORISATION_CODE = `BQDT24AieS04OIt3NbKGOXylE0x4LgpuzxtxvDtOtIc-7VcjyshgzUh4R4_zFhDAl_QSQtW6zvdhJrUDB9zcjz8j2VksL1wj1jFHe8ldfqDKY-vRsVqoBCsVRoPVVP85e4EnP8fxLCHW3qoPwxjN1p6VPfYdxCbuM0ZF0a105PXo6QFGnPzDvZZxa8-ovY6FASWyRiN2J7dZ64dmBjQW7W0vs1YpTQK-01Hl5b-1Hk0wgXoeP_zK9o5N668Og1mcdYiaJQPX2UWjW0tkHI28xAFGy4M`
-
-
 export default class SongFeed {
 
   /**
@@ -67,7 +61,8 @@ export default class SongFeed {
         const artist = lastfmTrack.artist.name
         const track = lastfmTrack.name
 
-        this.getSpotifyTrack(artist, track)
+        // this.getSpotifyTrack(artist, track)
+        this.injectLastfmElements(data)
       })
   }
 
@@ -83,7 +78,7 @@ export default class SongFeed {
 
     spotifyApi.searchTracks(query, { limit: 1 })
       .then(data => {
-        this.injectElements(data)
+        this.injectSpotifyElements(data)
       })
   }
 
@@ -91,7 +86,31 @@ export default class SongFeed {
    *
    */
   @bind
-  injectElements(data) {
+  injectLastfmElements(data) {
+    this.feedContainer.pause()
+
+    console.log(data.toptracks.track)
+
+    const resultsData = Object.keys(data.toptracks.track).map(id => `
+      My favourite song this week is 
+      <a href="${ data.toptracks.track[id].url }" target="_blank" class="song-feed__link link">
+        ${ data.toptracks.track[id].name } by ${ data.toptracks.track[id].artist.name }
+
+        <img src="${ data.toptracks.track[id].image[0]['#text'] }" 
+          alt="Artwork for the song ${ data.toptracks.track[id].name } by ${ data.toptracks.track[id].artist.name }"
+          class="song-feed__artwork">
+      </a>
+    `).join('')
+
+    this.feedContainer.item.innerHTML = resultsData
+    this.feedContainer.resume()
+  }
+
+  /**
+   *
+   */
+  @bind
+  injectSpotifyElements(data) {
     this.feedContainer.pause()
 
     const resultsData = Object.keys(data.tracks.items).map(id => `
