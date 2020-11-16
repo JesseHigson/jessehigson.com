@@ -17,6 +17,21 @@ const LAST_FM_USER = `jessehigson`
  */
 const LAST_FM_API_URL = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=` + LAST_FM_USER + `&api_key=` + LAST_FM_API_KEY + `&format=json&period=7day&limit=1`
 
+/**
+ * @type {string}
+ */
+const SPOTIFY_API_URL = `https://accounts.spotify.com/api/token`
+
+/**
+ * @type {string}
+ */
+const SPOTIFY_CLIENT_ID = `e5de900fb4964a7e89560f6a230ddc4f`
+
+/**
+ * @type {string}
+ */
+const SPOTIFY_CLIENT_SECRET = `807e0767e59f4c35b90e85c2ac28945c`
+
 export default class SongFeed {
 
   /**
@@ -92,12 +107,9 @@ export default class SongFeed {
    */
   @bind
   authenticateSpotify() {
-    const client = 'e5de900fb4964a7e89560f6a230ddc4f'
-    const secret = '807e0767e59f4c35b90e85c2ac28945c'
+    let authorization = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64')
 
-    let authorization = Buffer.from(`${client}:${secret}`).toString('base64')
-
-    fetch('https://accounts.spotify.com/api/token', {
+    fetch(SPOTIFY_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
