@@ -89,16 +89,10 @@ export default class SongFeed {
   injectLastfmElements(data) {
     this.feedContainer.pause()
 
-    console.log(data.toptracks.track)
-
     const resultsData = Object.keys(data.toptracks.track).map(id => `
       My favourite song this week is 
       <a href="${ data.toptracks.track[id].url }" target="_blank" class="song-feed__link link">
         ${ data.toptracks.track[id].name } by ${ data.toptracks.track[id].artist.name }
-
-        <img src="${ data.toptracks.track[id].image[0]['#text'] }" 
-          alt="Artwork for the song ${ data.toptracks.track[id].name } by ${ data.toptracks.track[id].artist.name }"
-          class="song-feed__artwork">
       </a>
     `).join('')
 
