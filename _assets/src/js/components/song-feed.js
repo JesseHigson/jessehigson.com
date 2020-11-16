@@ -25,6 +25,11 @@ export default class SongFeed {
   feedContainer = new LiveElement('#song-feed')
 
   /**
+   * @type {String}
+   */
+  spotifyAccessToken = ''
+
+  /**
    *
    */
   constructor() {
@@ -39,6 +44,8 @@ export default class SongFeed {
     if (!this.feedContainer.item) {
       return
     }
+
+    this.authenticateSpotify()
 
     this.getLastfmTrack()
 
@@ -61,8 +68,7 @@ export default class SongFeed {
         const artist = lastfmTrack.artist.name
         const track = lastfmTrack.name
 
-        // this.getSpotifyTrack(artist, track)
-        this.injectLastfmElements(data)
+        this.getSpotifyTrack(artist, track)
       })
   }
 
@@ -72,13 +78,37 @@ export default class SongFeed {
   @bind
   async getSpotifyTrack(artist, track) {
     const spotifyApi = new SpotifyWebApi()
-    spotifyApi.setAccessToken(SPOTIFY_AUTHORISATION_CODE)
+    spotifyApi.setAccessToken(this.spotifyAccessToken)
 
     const query = 'artist: ' + artist + ' track: ' + track
 
     spotifyApi.searchTracks(query, { limit: 1 })
       .then(data => {
         this.injectSpotifyElements(data)
+      })
+  }
+
+  /**
+   *
+   */
+  @bind
+  authenticateSpotify() {
+    const client = 'e5de900fb4964a7e89560f6a230ddc4f'
+    const secret = '807e0767e59f4c35b90e85c2ac28945c'
+
+    let authorization = Buffer.from(`${client}:${secret}`).toString('base64')
+
+    fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${authorization}`
+      },
+      body: 'grant_type=client_credentials'
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.spotifyAccessToken = data.access_token
       })
   }
 
