@@ -163,10 +163,10 @@ export default class SongFeed {
 
     const markup = `
       My most listened to song so far this week is 
-      <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link link">
+      <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
         ${ week.name } by ${ week.artists[0].name }
 
-        <div class="song-feed__link-image">
+        <div class="image-cursor__image">
           <figure class="image">
             <picture class="image__image">
               <img
@@ -179,10 +179,10 @@ export default class SongFeed {
         </div>
       </a>, 
       this month is
-      <a href="${ month.external_urls.spotify }" target="_blank" class="song-feed__link link">
+      <a href="${ month.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
         ${ month.name } by ${ month.artists[0].name }
 
-        <div class="song-feed__link-image">
+        <div class="image-cursor__image">
           <figure class="image">
             <picture class="image__image">
               <img
@@ -195,10 +195,10 @@ export default class SongFeed {
         </div>
       </a> 
       and this year is  
-      <a href="${ year.external_urls.spotify }" target="_blank" class="song-feed__link link">
+      <a href="${ year.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
         ${ year.name } by ${ year.artists[0].name }
 
-        <div class="song-feed__link-image">
+        <div class="image-cursor__image">
           <figure class="image">
             <picture class="image__image">
               <img

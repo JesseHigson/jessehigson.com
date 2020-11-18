@@ -12,6 +12,7 @@ import ImageLazyLoader from './components/image-lazy-loader'
 import Animator from './components/animator'
 import Favicon from './components/favicon'
 import SongFeed from './components/song-feed'
+import ImageCursors from './components/image-cursors'
 
 /**
  * The main wrapper around our app's functionality
@@ -105,6 +106,7 @@ class App {
     this.components.animator = new Animator('.animate-on-scroll')
     this.components.favicon = new Favicon()
     this.components.songFeed = new SongFeed()
+    this.components.imageCursors = new ImageCursors()
   }
 
   /**
