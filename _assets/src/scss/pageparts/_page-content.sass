@@ -1,17 +1,15 @@
 .page-content
-  padding: $baseline 0
-
   &__list
     @extend %h1
     list-style: none
-    margin: 0 0 $baseline
+    margin: 0 0 ($baseline / 2)
 
     &-item
       display: flex
       align-items: center
 
       &:not(:last-of-type)
-        margin: 0 0 ($baseline / 2)
+        margin: 0 0 ($baseline / 4)
 
       &__icon
         display: inline-flex
