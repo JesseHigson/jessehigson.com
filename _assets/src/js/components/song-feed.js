@@ -165,14 +165,50 @@ export default class SongFeed {
       My most listened to song so far this week is 
       <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link link">
         ${ week.name } by ${ week.artists[0].name }
+
+        <div class="song-feed__link-image">
+          <figure class="image">
+            <picture class="image__image">
+              <img
+                src="${ week.album.images[2].url }"
+                data-lazy-load-src="${ week.album.images[0].url }"
+                alt="Artwork for the song ${ week.name } by ${ week.artists[0].name }"
+              />
+            </picture>
+          </figure>
+        </div>
       </a>, 
       this month is
       <a href="${ month.external_urls.spotify }" target="_blank" class="song-feed__link link">
         ${ month.name } by ${ month.artists[0].name }
+
+        <div class="song-feed__link-image">
+          <figure class="image">
+            <picture class="image__image">
+              <img
+                src="${ month.album.images[2].url }"
+                data-lazy-load-src="${ month.album.images[0].url }"
+                alt="Artwork for the song ${ month.name } by ${ month.artists[0].name }"
+              />
+            </picture>
+          </figure>
+        </div>
       </a> 
       and this year is  
       <a href="${ year.external_urls.spotify }" target="_blank" class="song-feed__link link">
         ${ year.name } by ${ year.artists[0].name }
+
+        <div class="song-feed__link-image">
+          <figure class="image">
+            <picture class="image__image">
+              <img
+                src="${ year.album.images[2].url }"
+                data-lazy-load-src="${ year.album.images[0].url }"
+                alt="Artwork for the song ${ year.name } by ${ year.artists[0].name }"
+              />
+            </picture>
+          </figure>
+        </div>
       </a>.
     `
 
