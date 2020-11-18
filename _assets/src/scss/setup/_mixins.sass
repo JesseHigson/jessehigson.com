@@ -49,3 +49,25 @@
 =gutters
   +gutterLeft
   +gutterRight
+
+=hoverImage
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  overflow: hidden
+  height: auto
+  width: auto
+  max-height: 60vw
+  max-width: 60vw
+  opacity: 0
+  z-index: -1000
+  pointer-events: none
+  transition: opacity $transitionDuration $transitionTimingFunction
+
+  @media (min-width: $smallDesktop)
+    max-height: 40vw
+    max-width: 40vw
+
+  a:hover &
+    opacity: .65

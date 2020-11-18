@@ -3,19 +3,4 @@
 
   &__link
     &-image
-      position: absolute
-      top: 50%
-      left: 50%
-      transform: translate(-50%, -50%)
-      overflow: hidden
-      height: 0
-      padding-bottom: 40%
-      width: 40%
-      opacity: 0
-      z-index: -1000
-      pointer-events: none
-      transition: opacity $transitionDuration $transitionTimingFunction
-
-    &:hover
-      .song-feed__link-image
-        opacity: .8
+      +hoverImage
