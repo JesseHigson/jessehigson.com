@@ -1,4 +1,4 @@
-$size: 7em
+$size: 4em
 
 .bouncing-smiley
   display: block
@@ -8,27 +8,27 @@ $size: 7em
   z-index: -999
 
   &--sad
-    animation: moveX 7s linear 0s infinite alternate, moveY 8s linear 0s infinite alternate, spin 8s linear 0s infinite
+    animation: moveX 14s linear 0s infinite alternate, moveY 16s linear 0s infinite alternate, spin 12s linear 0s infinite
 
   &--happy
-    animation: moveX 7s linear 0s infinite alternate-reverse, moveY 8s linear 0s infinite alternate-reverse, spin 8s linear 0s infinite reverse
+    animation: moveX 18s linear 0s infinite alternate-reverse, moveY 12s linear 0s infinite alternate, spin 12s linear 0s infinite reverse
 
   @media (prefers-reduced-motion: reduce)
     display: none !important
 
 @keyframes moveX
   0%
-    left: 0
+    left: calc(100% - #{$size})
 
   100%
-    left: calc(100% - #{$size})
+    left: 0
 
 @keyframes moveY
   0%
-    top: 0
+    top: calc(100% - #{$size})
 
   100%
-    top: calc(100% - #{$size})
+    top: 0
 
 @keyframes spin
   0%
