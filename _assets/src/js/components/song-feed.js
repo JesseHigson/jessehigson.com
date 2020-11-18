@@ -15,7 +15,7 @@ const LAST_FM_USER = `jessehigson`
 /**
  * @type {string}
  */
-const LAST_FM_API_URL = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=` + LAST_FM_USER + `&api_key=` + LAST_FM_API_KEY + `&format=json&period=7day&limit=1`
+const LAST_FM_API_URL = `https://ws.audioscrobbler.com/2.0/`
 
 /**
  * @type {string}
@@ -61,45 +61,11 @@ export default class SongFeed {
     }
 
     this.authenticateSpotify()
-    this.getLastfmTrack()
+    this.getTracks()
 
     this.feedContainer.on('update', (newItems, oldItems) => {
-      this.getLastfmTrack()
+      this.getTracks()
     })
-  }
-
-  /**
-   *
-   */
-  @bind
-  async getLastfmTrack() {
-    await fetch(LAST_FM_API_URL, {
-      method: 'GET'
-    })
-      .then(response => response.json())
-      .then(data => {
-        const lastfmTrack = data.toptracks.track[0]
-        const artist = lastfmTrack.artist.name
-        const track = lastfmTrack.name
-
-        this.getSpotifyTrack(artist, track)
-      })
-  }
-
-  /**
-   *
-   */
-  @bind
-  async getSpotifyTrack(artist, track) {
-    const spotifyApi = new SpotifyWebApi()
-    spotifyApi.setAccessToken(this.spotifyAccessToken)
-
-    const query = 'artist: ' + artist + ' track: ' + track
-
-    spotifyApi.searchTracks(query, { limit: 1 })
-      .then(data => {
-        this.injectElements(data)
-      })
   }
 
   /**
@@ -127,21 +93,90 @@ export default class SongFeed {
    *
    */
   @bind
-  injectElements(data) {
+  getTracks() {
+    const periods = ['7day', '1month', '12month']
+
+    this.tracks = {}
+    this.spotifyTracks = {}
+
+    periods.forEach(period => {
+      this.getLastfmTrack(period)
+    })
+
+    this.tracks.items = this.spotifyTracks
+  }
+
+  /**
+   *
+   */
+  @bind
+  async getLastfmTrack(period) {
+    await fetch(LAST_FM_API_URL + '?method=user.gettoptracks&user=' + LAST_FM_USER + '&api_key=' + LAST_FM_API_KEY + '&format=json&period=' + period + '&limit=1', {
+      method: 'GET'
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.getSpotifyTrack(data.toptracks.track, period)
+      })
+  }
+
+  /**
+   *
+   */
+  @bind
+  async getSpotifyTrack(lastfmTrack, period) {
+    const spotifyApi = new SpotifyWebApi()
+    spotifyApi.setAccessToken(this.spotifyAccessToken)
+
+    if (period === '7day') {
+      period = 'week'
+    } else if (period === '1month') {
+      period = 'month'
+    } else if (period === '12month') {
+      period = 'year'
+    }
+
+    Object.keys(lastfmTrack).map(id => {
+      const artist = lastfmTrack[id].artist.name
+      const track = lastfmTrack[id].name
+      const query = 'artist: ' + artist + ' track: ' + track
+
+      spotifyApi.searchTracks(query, { limit: 1 })
+        .then(data => {
+          this.spotifyTracks[period] = data
+
+          this.injectElements(this.tracks)
+        })
+    })
+  }
+
+  /**
+   *
+   */
+  @bind
+  async injectElements(tracks) {
     this.feedContainer.pause()
 
-    const resultsData = Object.keys(data.tracks.items).map(id => `
-      My favourite song this week is 
-      <a href="${ data.tracks.items[id].external_urls.spotify }" target="_blank" class="song-feed__link link">
-        ${ data.tracks.items[id].name } by ${ data.tracks.items[id].artists[0].name }
+    const week = tracks.items.week.tracks.items[0]
+    const month = tracks.items.month.tracks.items[0]
+    const year = tracks.items.year.tracks.items[0]
 
-        <img src="${ data.tracks.items[id].album.images[2].url }" 
-              alt="Artwork for the song ${ data.tracks.items[id].name } by ${ data.tracks.items[id].artists[0].name }"
-              class="song-feed__artwork">
-      </a>
-    `).join('')
+    const markup = `
+      My most listened to song so far this week is 
+      <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link link">
+        ${ week.name } by ${ week.artists[0].name }
+      </a>, 
+      this month is
+      <a href="${ month.external_urls.spotify }" target="_blank" class="song-feed__link link">
+        ${ month.name } by ${ month.artists[0].name }
+      </a> 
+      and this year is  
+      <a href="${ year.external_urls.spotify }" target="_blank" class="song-feed__link link">
+        ${ year.name } by ${ year.artists[0].name }
+      </a>.
+    `
 
-    this.feedContainer.item.innerHTML = resultsData
+    this.feedContainer.item.innerHTML = markup
     this.feedContainer.resume()
   }
 }
