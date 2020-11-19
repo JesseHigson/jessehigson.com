@@ -161,6 +161,8 @@ export default class SongFeed {
     const month = tracks.items.month.tracks.items[0]
     const year = tracks.items.year.tracks.items[0]
 
+    console.log(week.album.images)
+
     const markup = `
       My most listened to song so far this week is 
       <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
@@ -171,7 +173,7 @@ export default class SongFeed {
             <picture class="image__image">
               <img
                 src="${ week.album.images[2].url }"
-                data-lazy-load-src="${ week.album.images[0].url }"
+                data-lazy-load-src="${ week.album.images[1].url }"
                 alt="Artwork for the song ${ week.name } by ${ week.artists[0].name }"
               />
             </picture>
@@ -187,7 +189,7 @@ export default class SongFeed {
             <picture class="image__image">
               <img
                 src="${ month.album.images[2].url }"
-                data-lazy-load-src="${ month.album.images[0].url }"
+                data-lazy-load-src="${ month.album.images[1].url }"
                 alt="Artwork for the song ${ month.name } by ${ month.artists[0].name }"
               />
             </picture>
@@ -203,7 +205,7 @@ export default class SongFeed {
             <picture class="image__image">
               <img
                 src="${ year.album.images[2].url }"
-                data-lazy-load-src="${ year.album.images[0].url }"
+                data-lazy-load-src="${ year.album.images[1].url }"
                 alt="Artwork for the song ${ year.name } by ${ year.artists[0].name }"
               />
             </picture>
