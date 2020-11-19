@@ -49,3 +49,25 @@
 =gutters
   +gutterLeft
   +gutterRight
+
+=spacingTop
+  padding-top: $gutterMobile
+
+  @media (min-width: $tablet)
+    padding-top: $gutterTablet
+
+  @media (min-width: $smallDesktop)
+    padding-top: $gutterDesktop
+
+=spacingBottom
+  padding-bottom: $gutterMobile
+
+  @media (min-width: $tablet)
+    padding-bottom: $gutterTablet
+
+  @media (min-width: $smallDesktop)
+    padding-bottom: $gutterDesktop
+
+=spacing
+  +spacingTop
+  +spacingBottom
