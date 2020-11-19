@@ -167,7 +167,7 @@ export default class SongFeed {
         ${ week.name } by ${ week.artists[0].name }
 
         <div class="image-cursor__image">
-          <figure class="image">
+          <figure class="image objFit">
             <picture class="image__image">
               <img
                 src="${ week.album.images[2].url }"
@@ -183,7 +183,7 @@ export default class SongFeed {
         ${ month.name } by ${ month.artists[0].name }
 
         <div class="image-cursor__image">
-          <figure class="image">
+          <figure class="image objFit">
             <picture class="image__image">
               <img
                 src="${ month.album.images[2].url }"
@@ -199,7 +199,7 @@ export default class SongFeed {
         ${ year.name } by ${ year.artists[0].name }
 
         <div class="image-cursor__image">
-          <figure class="image">
+          <figure class="image objFit">
             <picture class="image__image">
               <img
                 src="${ year.album.images[2].url }"
