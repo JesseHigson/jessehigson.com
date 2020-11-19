@@ -2,10 +2,12 @@
   @extend %h4
   line-height: $baseline
   opacity: 0
+  max-width: $mediumDesktop
   transition: opacity $transitionDuration $transitionTimingFunction
 
   &__link
-    display: inline
+    @media (max-width: $tablet - 1px)
+      display: inline
 
   &--loaded
     opacity: 1
