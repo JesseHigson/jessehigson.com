@@ -45,6 +45,11 @@ export default class SongFeed {
   spotifyAccessToken = ''
 
   /**
+   * @type {Array}
+   */
+  periods = ['7day', '1month', '12month']
+
+  /**
    *
    */
   constructor() {
@@ -94,12 +99,10 @@ export default class SongFeed {
    */
   @bind
   getTracks() {
-    const periods = ['7day', '1month', '12month']
-
     this.tracks = {}
     this.spotifyTracks = {}
 
-    periods.forEach(period => {
+    this.periods.forEach(period => {
       this.getLastfmTrack(period)
     })
 
@@ -155,13 +158,15 @@ export default class SongFeed {
    */
   @bind
   async injectElements(tracks) {
+    if ((Object.entries(tracks.items).length) != (this.periods.length)) {
+      return
+    }
+
     this.feedContainer.pause()
 
     const week = tracks.items.week.tracks.items[0]
     const month = tracks.items.month.tracks.items[0]
     const year = tracks.items.year.tracks.items[0]
-
-    console.log(week.album.images)
 
     const markup = `
       My most listened to song so far this week is 
