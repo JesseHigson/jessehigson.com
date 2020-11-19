@@ -170,53 +170,11 @@ export default class SongFeed {
 
     const markup = `
       My most listened to song so far this week is 
-      <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
-        ${ week.name } by ${ week.artists[0].name }
-
-        <div class="image-cursor__image">
-          <figure class="image objFit">
-            <picture class="image__image">
-              <img
-                src="${ week.album.images[2].url }"
-                data-lazy-load-src="${ week.album.images[1].url }"
-                alt="Artwork for the song ${ week.name } by ${ week.artists[0].name }"
-              />
-            </picture>
-          </figure>
-        </div>
-      </a>, 
+      <a href="${ week.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link"><span>${ week.name } by ${ week.artists[0].name }</span><div class="image-cursor__image"><figure class="image objFit"><picture class="image__image"><img src="${ week.album.images[2].url }" data-lazy-load-src="${ week.album.images[1].url }"/></picture></figure></div></a>,
       this month is
-      <a href="${ month.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
-        ${ month.name } by ${ month.artists[0].name }
-
-        <div class="image-cursor__image">
-          <figure class="image objFit">
-            <picture class="image__image">
-              <img
-                src="${ month.album.images[2].url }"
-                data-lazy-load-src="${ month.album.images[1].url }"
-                alt="Artwork for the song ${ month.name } by ${ month.artists[0].name }"
-              />
-            </picture>
-          </figure>
-        </div>
-      </a> 
-      and this year is  
-      <a href="${ year.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link">
-        ${ year.name } by ${ year.artists[0].name }
-
-        <div class="image-cursor__image">
-          <figure class="image objFit">
-            <picture class="image__image">
-              <img
-                src="${ year.album.images[2].url }"
-                data-lazy-load-src="${ year.album.images[1].url }"
-                alt="Artwork for the song ${ year.name } by ${ year.artists[0].name }"
-              />
-            </picture>
-          </figure>
-        </div>
-      </a>.
+      <a href="${ month.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link"><span>${ month.name } by ${ month.artists[0].name }</span><div class="image-cursor__image"><figure class="image objFit"><picture class="image__image"><img src="${ month.album.images[2].url }" data-lazy-load-src="${ month.album.images[1].url }"/></picture></figure></div></a>
+      and this year is 
+      <a href="${ year.external_urls.spotify }" target="_blank" class="song-feed__link image-cursor link"><span>${ year.name } by ${ year.artists[0].name }</span><div class="image-cursor__image"><figure class="image objFit"><picture class="image__image"><img src="${ year.album.images[2].url }" data-lazy-load-src="${ year.album.images[1].url }"/></picture></figure></div></a>.
     `
 
     this.feedContainer.item.innerHTML = markup
