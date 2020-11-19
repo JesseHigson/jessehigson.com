@@ -1,18 +1,14 @@
 .footer
   padding: $baseline 0
-  position: absolute
-  bottom: 0
-  left: 0
-  right: 0
 
-  @media (min-width: $largeMobile)
+  @media (min-width: $tablet)
     flex-wrap: nowrap
 
   &__container
     justify-content: space-between
     flex-wrap: wrap
 
-    @media (min-width: $largeMobile)
+    @media (min-width: $tablet)
       flex-wrap: nowrap
 
   &__list
@@ -23,16 +19,14 @@
     flex-wrap: wrap
     align-items: flex-start
 
-    @media (min-width: $largeMobile)
+    @media (min-width: $tablet)
       flex-basis: auto
       flex-wrap: nowrap
       margin: 0
 
     &-item
       flex: 0 0 100%
+      margin: 0 $baseline 0 0
 
-      @media (min-width: $largeMobile)
+      @media (min-width: $tablet)
         flex-basis: auto
-
-      &:not(:last-of-type)
-        margin: 0 $baseline 0 0

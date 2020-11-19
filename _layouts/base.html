@@ -22,11 +22,13 @@
 
     <a id="top"></a>
 
-    {% include components/header.html %}
+    <div class="content-container">
+      {% include components/header.html %}
 
-    <main role="main" id="main-content" class="main">
-      {{ content }}
-    </main>
+      <main role="main" id="main-content" class="main">
+        {{ content }}
+      </main>
+    </div>
 
     {% include components/smileys.html %}
 
