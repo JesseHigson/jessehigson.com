@@ -220,6 +220,7 @@ export default class SongFeed {
     `
 
     this.feedContainer.item.innerHTML = markup
+    this.feedContainer.item.classList.add('song-feed--loaded')
     this.feedContainer.resume()
   }
 }

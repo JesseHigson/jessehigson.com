@@ -1,3 +1,8 @@
 .song-feed
   @extend %h4
   line-height: $baseline
+  opacity: 0
+  transition: opacity $transitionDuration $transitionTimingFunction
+
+  &--loaded
+    opacity: 1
