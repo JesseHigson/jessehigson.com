@@ -3,9 +3,9 @@ title: Jesse Higson
 name: Jesse Higson
 logo: /img/logo.svg
 email: jessehigson@gmail.com
-baseurl: ''
-url: ''
-cdn_url: ''
+baseurl: 'https://www.jessehigson.com'
+url: 'https://www.jessehigson.com'
+cdn_url: 'https://www.jessehigson.com'
 environment: production
 
 keep_files:
