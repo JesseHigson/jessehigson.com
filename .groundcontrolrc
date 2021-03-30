@@ -9,9 +9,11 @@
     "js": "<=distPath>js",
     "img": "<=distPath>img",
     "fonts": "<=distPath>fonts",
+    "video": "<=distPath>video",
     "styleguide": "<=distPath>styleguide"
   },
   "scssFolder": "<=resourcesPath>scss/",
+  "video": "<=resourcesPath>video/**/*.mp4",
   "img": "<=resourcesPath>img/**/*.{png,jpg,jpeg,gif,webp}",
   "svg": "<=resourcesPath>img/**/*.svg",
   "fonts": "<=resourcesPath>fonts/**/*.{eot,svg,ttf,woff,woff2}",
@@ -20,11 +22,18 @@
     "folder": "_includes/head",
     "filename": "critical-css.html"
   },
+  "compiledHTML": "_site/**/*.html",
   "scripts": {
-    "folder": "_includes/head",
-    "filename": "scripts.html"
+    "folder": "_includes/head/",
+    "filename": "scripts.html",
+    "preload": "preload.html"
   },
-  "html": ["**/*.html", "!node_modules/{,**}", "!_site/{,**}"],
+  "styles": {
+    "folder": "_includes/head/",
+    "filename": "css.html",
+    "preload": "preload.html"
+  },
+  "html": ["**/*.{html,md,yml}", "!node_modules/{,**}", "!_site/{,**}"],
   "cdn": "<=resourcesPath>scss/_cdn.sass",
   "js": {
     "app": "<=resourcesPath>js/app.js",
@@ -35,10 +44,14 @@
   "autoprefixer": {
     "grid": true
   },
-  "parameters": "_config/parameters.yml",
+  "parameters": {
+    "production": "_config.yml",
+    "staging": "_config.staging.yml",
+    "dev": "_config.dev.yml"
+  },
   "liveReloadFiles": [
     "<=distPath>css/*.css",
     "<=distPath>js/*.js",
-    "**/*.html"
+    "**/*.{html,md}"
   ]
 }

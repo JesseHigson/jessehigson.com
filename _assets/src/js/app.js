@@ -1,6 +1,3 @@
-// Import our default set of polyfills
-import polyfill from './polyfills'
-
 // Import Turbolinks for navigation
 import Turbolinks from 'turbolinks'
 

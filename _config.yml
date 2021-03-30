@@ -15,6 +15,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - gulpfile.js
+  - livereload.conf.js
   - node_modules
   - package-lock.json
   - package.json
@@ -27,3 +28,34 @@ exclude:
 # Include a couple plugins
 gems:
   - jekyll-sitemap
+
+plugins:
+  - jekyll-responsive-image
+
+responsive_image:
+  template: _includes/responsive-image.html
+  default_quality: 50
+  sizes:
+    - width: 10
+    - width: 50
+    - width: 100
+    - width: 180
+    - width: 320
+    - width: 480
+    - width: 640
+    - width: 800
+    - width: 1024
+    - width: 1280
+    - width: 1440
+    - width: 1680
+    - width: 1920
+    - width: 2240
+    - width: 2560
+    - width: 2880
+    - width: 3000
+  auto_rotate: true
+  base_path: "_assets/src/img"
+  cache: true
+  output_path_format: "assets/dist/img/%{dirname}/resized/%{filename}-%{width}x%{height}.%{extension}"
+  save_to_source: false
+  strip: true

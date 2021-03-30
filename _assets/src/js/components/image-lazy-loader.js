@@ -156,7 +156,7 @@ export default class ImageLazyLoader {
 
         this.load(entry.target).then(() => {
           // Stop watching and load the image
-          this.observer.unobserve(entry.target)        
+          this.observer.unobserve(entry.target)
         })
       }
     })
@@ -186,14 +186,14 @@ export default class ImageLazyLoader {
         if (slideshow && slideshow.magicRoundabout) {
           slideshow.magicRoundabout.transition()
         }
-        
+
         resolve(true)
       })
-      
+
       image.addEventListener('error', e => {
         reject(e)
       })
-      
+
       // Set the srcset or src attribute on the image.
       // We prefer srcset if it is defined
       if ('srcset' in image && 'lazyLoadSrcset' in image.dataset) {
@@ -201,7 +201,7 @@ export default class ImageLazyLoader {
       } else if ('lazyLoadSrc' in image.dataset) {
         image.src = image.dataset.lazyLoadSrc
       }
-  
+
     })
   }
 

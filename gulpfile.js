@@ -35,8 +35,6 @@ var clone = require('gulp-clone')
 var browserify = require('browserify')
 var sourcemaps = require('gulp-sourcemaps')
 var source = require('vinyl-source-stream')
-var sassLint = require('gulp-sass-lint')
-var esLint = require('gulp-eslint')
 var util = require('gulp-util')
 var minifyCss = require('gulp-clean-css')
 var rename = require('gulp-rename')
@@ -50,6 +48,11 @@ var plugins = require('gulp-load-plugins')()
 var yaml = require('yaml').parse
 var imageResize = require('gulp-image-resize')
 var spawn = require('child_process').spawn
+var critical = require('critical').stream
+var inline = require('gulp-inline-css')
+var nano = require('cssnano')
+var es = require('event-stream')
+var log = require('fancy-log')
 
 // Gulp Config
 var showErrorNotifications = true
@@ -69,7 +72,7 @@ _.forEach(vars, function (value, key) { // eslint-disable-line unicorn/no-fn-ref
 config = JSON.parse(config)
 
 // The current environment
-var env = process.env.ENVIRONMENT || 'production'
+var environment = process.env.ENVIRONMENT || 'production'
 
 /* Errorhandling
  ========================================================================== */
@@ -101,22 +104,7 @@ headerLines = function (message) {
   return lines
 }
 
-/* Add Async tag to script
- ========================================================================== */
-var addAsyncTag = function (filepath, file, i, length) {
-  let baseUrl = ''
-  const fileContent = yaml(fs.readFileSync(config.parameters, 'utf8'))
-
-  if (('parameters' in fileContent) && ('keycdn.base_url' in fileContent.parameters)) {
-    baseUrl = fileContent.parameters['keycdn.base_url']
-  }
-
-  if (config.js.addAsync === 'true') {
-    return '<script src="' + baseUrl + filepath + '" async data-turbolinks-eval="false" crossorigin="anonymous"></script>'
-  } else {
-    return '<script src="' + baseUrl + filepath + '" data-turbolinks-eval="false" crossorigin="anonymous"></script>'
-  }
-}
+const parameters = yaml(fs.readFileSync(config.parameters[environment], 'utf8'))
 
 gulp.task('inject-cdn-url', function () {
   if (!fs.existsSync(config.cdn)) {
@@ -127,12 +115,10 @@ gulp.task('inject-cdn-url', function () {
   }
 
   return gulp.src(config.cdn)
-    .pipe(plugins.inject(gulp.src(config.parameters), {
+    .pipe(plugins.inject(gulp.src(config.parameters[environment]), {
       transform: function (filepath, file, i, length) {
-        const fileContent = yaml(fs.readFileSync('.' + filepath, 'utf8'))
-
-        if (('parameters' in fileContent) && ('keycdn.base_url' in fileContent.parameters)) {
-          return '$assetBaseUrl: "' + fileContent.parameters['keycdn.base_url'] + '";'
+        if ('cdn_url' in parameters) {
+          return '$assetBaseUrl: "' + parameters.cdn_url + '"'
         }
       },
       starttag: '/* inject:cdn */',
@@ -141,49 +127,41 @@ gulp.task('inject-cdn-url', function () {
     .pipe(gulp.dest(config.scssFolder))
 })
 
-/* Linting
- ========================================================================== */
-gulp.task('lint', ['lint-js', 'lint-sass'])
-
-// ESLint
-gulp.task('lint-js', function () {
-  return gulp.src([config.js.app, '!' + resourcesPath + '/ui/js/vendors/**/*.js'])
-    .pipe(esLint())
-    .pipe(esLint.format())
-    .pipe(esLint.failOnError())
-})
-
-// SASS Lint
-gulp.task('lint-sass', function () {
-  return gulp.src(config.scss)
-    .pipe(sassLint())
-    .pipe(sassLint.format())
-    .pipe(sassLint.failOnError())
-})
-
 /* Stylesheets
  ========================================================================== */
-
-gulp.task('inject-critical-css', ['styles'], function () {
-  return gulp.src(config.criticalCSS.folder + '/' + config.criticalCSS.filename)
-    .pipe(plugins.inject(gulp.src(config.dist.criticalCSS), {
-      transform: function (filepath, file, i, length) {
-        return '<style>' + fs.readFileSync('.' + filepath, 'utf8') + '</style>'
-      },
-      starttag: '<!-- inject:css -->',
-      endtag: '<!-- endinject -->'
-    }))
-    .pipe(gulp.dest(config.criticalCSS.folder))
+gulp.task('inject-critical-css', function () {
+return gulp.src([config.compiledHTML])
+  .pipe(critical({
+    base: '_site/',
+    css: '_site/assets/dist/css/style.min.css',
+    extract: false,
+    ignore: ['@font-face', /url\(/],
+    inline: true,
+    minify: true,
+    dimensions: [{
+      height: 812,
+      width: 375
+    }, {
+      height: 768,
+      width: 1024
+    }, {
+      height: 1050,
+      width: 1680
+    }]
+  }))
+  .on('error', function (error) { return log.error(error.message) })
+  .pipe(gulp.dest('_site'))
 })
 
-gulp.task('styles', ['inject-cdn-url'], function () {
+
+gulp.task('compile-dev-sass', function () {
   return gulp.src(config.scss)
     // Sass
     .pipe(sass()
       .on('error', sass.logError))
 
     // Prefix where needed
-    .pipe(postcss([flexbugs, cssvariables, autoprefixer(config.autoprefixer)]))
+    .pipe(postcss([flexbugs, cssvariables, autoprefixer(config.autoprefixer), nano()]))
 
     // Minify output
     .pipe(minifyCss())
@@ -205,10 +183,70 @@ gulp.task('styles', ['inject-cdn-url'], function () {
     .pipe(livereload())
 })
 
+
+gulp.task('compile-prod-sass', function () {
+  return gulp.src(config.scss)
+    // Sass
+    .pipe(sass()
+      .on('error', sass.logError))
+
+    // Prefix where needed
+    .pipe(postcss([flexbugs, cssvariables, autoprefixer(config.autoprefixer), nano()]))
+
+    // Minify output
+    .pipe(minifyCss())
+
+    // Rename the file to respect naming covention.
+    .pipe(rename(function (path) {
+      path.basename += '.min'
+    }))
+
+    // Write to output
+    .pipe(gulp.dest(config.dist.css))
+
+    // Show total size of css
+    .pipe(size({
+      title: 'css'
+    }))
+
+})
+
+gulp.task('inject-styles', function () {
+  var files = gulp.src([config.dist.css + '/**/*.css', '!' + config.dist.css + '/{admin,critical}*.css'], { read: false })
+
+  return Promise.all([
+    gulp.src(config.styles.folder + config.styles.filename)
+      // Inject
+      .pipe(inject(files, {
+        transform: function (filepath) {
+          return '<link rel="stylesheet" media="print" onload="this.media=\'all\'" href="{{ site.cdn_url }}' + filepath + '" type="text/css" data-turbolinks-eval="false" crossorigin>'
+        },
+        ignorePath: '/_site'
+      }))
+      .pipe(gulp.dest(config.styles.folder)),
+
+    gulp.src(config.styles.folder + config.styles.preload)
+      // Inject
+      .pipe(inject(files, {
+        transform: function (filepath) {
+          return '<link rel="preload" as="style" href="{{ site.cdn_url }}' + filepath + '"  type="text/css" crossorigin />'
+        },
+        ignorePath: '/_site',
+        starttag: '<!-- inject:css-preload -->',
+        endtag: '<!-- endinject -->'
+      }))
+      .pipe(gulp.dest(config.styles.folder)),
+
+  ])
+})
+
+gulp.task('dev-styles', gulp.series('inject-cdn-url', 'compile-dev-sass', 'inject-styles'))
+gulp.task('prod-styles', gulp.series('inject-cdn-url', 'compile-prod-sass', 'inject-styles'))
+
 /* Javascript
  ========================================================================== */
 // Production
-gulp.task('scripts-prod', function () {
+gulp.task('compile-prod-js', function () {
   return browserify({
     debug: false,
     entries: [config.js.app],
@@ -230,6 +268,10 @@ gulp.task('scripts-prod', function () {
     // Set destination
     .pipe(buffer())
 
+    // Write sourcemaps
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('./'))
+
     // Revision
     .pipe(rev())
 
@@ -242,35 +284,43 @@ gulp.task('scripts-prod', function () {
     }))
 })
 
-gulp.task('inject-prod-scripts', ['scripts-prod'], function () {
-  return gulp.src(config.scripts.folder + '/' + config.scripts.filename)
-    // Inject
-    .pipe(inject(gulp.src(config.dist.js + '/**/*.js'), {
-      transform: addAsyncTag,
-      ignorePath: '/_site'
-    }))
+gulp.task('inject-prod-scripts', function () {
+  return Promise.all([
+    gulp.src(config.scripts.folder + config.scripts.filename)
+      // Inject
+      .pipe(inject(gulp.src(config.dist.js + '/**/*.js'), {
+        transform: function (filepath) {
+          return '<script src="{{ site.cdn_url }}' + filepath + '" async data-turbolinks-eval="false" crossorigin></script>'
+        },
+        ignorePath: '/_site'
+      }))
+      .pipe(gulp.dest(config.scripts.folder)),
 
-    // Write
-    .pipe(gulp.dest(config.scripts.folder))
+    gulp.src(config.scripts.folder + config.scripts.preload)
+      // Inject
+      .pipe(inject(gulp.src(config.dist.js + '/**/*.js'), {
+        transform: function (filepath) {
+          return '<link rel="preload" as="script" href="{{ site.cdn_url }}' + filepath + '" crossorigin />'
+        },
+        ignorePath: '/_site',
+        starttag: '<!-- inject:js-preload -->',
+        endtag: '<!-- endinject -->'
+      }))
+      .pipe(gulp.dest(config.scripts.folder)),
+
+  ])
 })
 
-// Development
-gulp.task('scripts-dev', function () {
-  return browserify({
-    debug: true,
-    entries: [config.js.app],
-    insertGlobalVars: {
-      environment: function (file, dir) {
-        return '"dev"'
-      }
-    }
-  })
+gulp.task('scripts-prod', gulp.series('compile-prod-js', 'inject-prod-scripts'))
 
+// Development
+gulp.task('compile-dev-js', function () {
+  return browserify(config.js.app)
     // Handle errors gracefully
     .plugin('errorify')
 
-  // Minify modules
-  // .transform('uglifyify', { global: true })
+    // Minify modules
+    // .transform('uglifyify', {global: true})
 
     // Transpile ES6+ syntax
     .transform('babelify')
@@ -288,33 +338,47 @@ gulp.task('scripts-dev', function () {
     .pipe(gulp.dest(config.dist.js))
 })
 
-gulp.task('inject-dev-scripts', ['scripts-dev'], function () {
+gulp.task('inject-dev-scripts', function () {
   var files = gulp.src(config.dist.js + '/**/*.js', { read: false })
+  var livereloadConfig = require('./livereload.conf')
 
-  return gulp.src(config.scripts.folder + '/' + config.scripts.filename)
-
+  return Promise.all([
+    gulp.src(config.scripts.folder + config.scripts.filename, { allowEmpty: true })
     // Inject
     .pipe(inject(files, {
       transform: function (filepath) {
-        const lr = '<script src="http://localhost:35729/livereload.js" async data-turbolinks-eval="false"></script>\n'
+        const lr = '<script src="https://' + livereloadConfig.host + ':' + livereloadConfig.port + '/livereload.js" data-turbolinks-eval="false"></script>\n'
         // Concatenate the livereload snippet and JS files
-        return lr + addAsyncTag.apply(inject.transform, arguments)
+        return lr + '<script src="{{ site.cdn_url }}' + filepath + '" data-turbolinks-eval="false" crossorigin></script>'
       },
-      ignorePath: '/_site'
+      ignorePath: '/_site',
     }))
+    .pipe(gulp.dest(config.scripts.folder)),
 
-    // Write
-    .pipe(gulp.dest(config.scripts.folder))
+    gulp.src(config.scripts.folder + config.scripts.preload)
+      .pipe(inject(files, {
+        transform: function (filepath) {
+          // Concatenate the livereload snippet and JS files
+          return '<link rel="preload" as="script" href="{{ site.cdn_url }}' + filepath + '" crossorigin />'
+        },
+        ignorePath: '/_site',
+        starttag: '<!-- inject:js-preload -->',
+        endtag: '<!-- endinject -->'
+      }))
+      .pipe(gulp.dest(config.scripts.folder))
 
-    // Reload browser window
-    .pipe(livereload())
+      // Reload browser window
+      .pipe(livereload())
+  ])
 })
+
+gulp.task('scripts-dev', gulp.series('compile-dev-js', 'inject-dev-scripts'))
 
 /* HTML
  ========================================================================== */
 
 gulp.task('html', () => {
-  const args = {
+  const arguments_ = {
     dev: [
       'exec',
       'jekyll',
@@ -338,44 +402,21 @@ gulp.task('html', () => {
     ]
   }
 
-  return spawn('bundle', args[env], {
+  return spawn('bundle', arguments_[environment], {
     stdio: 'inherit'
   })
 })
 
+
 /* Images
  ========================================================================== */
-var resizeTasks = []
-var sizes = [500, 1000, 1500, 2000, 2800]
-
-sizes.forEach(function (size) {
-  var taskName = 'resize-images-' + size
-  gulp.task(taskName, function () {
-    return gulp.src(config.img)
-      // Only optimize changed images
-      .pipe(changed(config.dist.img))
-      .pipe(imageResize({
-        filter: 'Catrom',
-        imageMagick: true,
-        interlace: true,
-        noProfile: true,
-        quality: 0.5,
-        width: size
-      }))
-      .pipe(rename(function (path) { return path.basename + '-' + size }))
-      .pipe(gulp.dest(config.dist.img + '/resized/' + size))
-
-      // Reload browser window
-      .pipe(livereload())
-  })
-  resizeTasks.push(taskName)
-})
-
-gulp.task('images', resizeTasks, function () {
+ gulp.task('images', function () {
   // Imagemin
   return gulp.src([config.img, config.svg])
     // Only optimize changed images
     .pipe(changed(config.dist.img))
+
+    // Imagemin
     .pipe(imagemin({
       optimizationLevel: 3,
       progressive: true,
@@ -393,6 +434,16 @@ gulp.task('images', resizeTasks, function () {
     // Show total size of images
     .pipe(size({
       title: 'images'
+    }))
+})
+
+gulp.task('videos', function () {
+  return gulp.src([config.video])
+    .pipe(gulp.dest(config.dist.video))
+
+    // Show total size of videos
+    .pipe(size({
+      title: 'videos'
     }))
 })
 
@@ -421,34 +472,45 @@ gulp.task('clean', function (done) {
  ========================================================================== */
 // Watch
 gulp.task('watch', function () {
+
+  var livereloadConfig = require('./livereload.conf')
+
   // Livereload
-  livereload.listen()
+  livereload.listen(livereloadConfig)
   gulp.watch(config.liveReloadFiles).on('change', function (file) {
     livereload.changed(file.path)
   })
 
   // Styles
-  gulp.watch(config.scss, ['inject-critical-css'])
+  gulp.watch([config.scss, '!' + config.cdn], gulp.series('dev-styles'))
 
   // Scripts
-  gulp.watch(config.js.all, ['scripts-dev'])
+  gulp.watch(config.js.all, gulp.series('scripts-dev'))
 
   // Images
-  gulp.watch(config.img, ['images'])
+  gulp.watch(config.img, gulp.series('images'))
+
+  // Videos
+  gulp.watch(config.video, gulp.series('videos'))
 
   // HTML
-  gulp.watch(config.html, ['html'])
+  gulp.watch(config.html, gulp.series('html'))
 })
 
+
 // Build
-gulp.task('build', function (done) {
-  runSequence(
-    'clean',
-    ['inject-critical-css', 'inject-prod-scripts', 'images', 'fonts'],
-    'html',
-    done
-  )
-})
+gulp.task('build', gulp.series(
+  'clean',
+  gulp.parallel(
+    'prod-styles',
+    'scripts-prod',
+    'images',
+    'fonts',
+    'videos'
+  ),
+  'html',
+  'inject-critical-css'
+))
 
 // Build Deploy
 gulp.task('build-deploy', function (done) {
@@ -458,12 +520,16 @@ gulp.task('build-deploy', function (done) {
 })
 
 // Default
-gulp.task('default', function (done) {
-  runSequence(
-    'clean',
-    ['inject-dev-scripts', 'images', 'fonts', 'inject-critical-css'],
-    'html',
-    ['watch'],
-    done
-  )
-})
+gulp.task('default',
+  gulp.series(
+  'clean',
+  gulp.parallel(
+    'dev-styles',
+    'scripts-dev',
+    'images',
+    'fonts',
+    'videos'
+  ),
+  'html',
+  'watch'
+))

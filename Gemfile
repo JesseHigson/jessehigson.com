@@ -9,7 +9,7 @@ ruby RUBY_VERSION
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "3.4.3"
+gem "jekyll", "4.1.0"
 gem "redcarpet"
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
@@ -19,4 +19,5 @@ gem "redcarpet"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem "jekyll-sitemap"
+  gem "jekyll-responsive-image"
 end
