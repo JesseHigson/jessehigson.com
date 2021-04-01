@@ -16,33 +16,19 @@ seo:
         <a href="https://superrb.com" target="_blank" class="page-content__list-item__link image-cursor link">
           Superrb
 
-          <figure class="page-content__list-item__icon image">
-            <picture class="image__image">
-              <img
-                data-lazy-load-srcset="{{ site.cdn_url }}/assets/dist/img/resized/500/computer.png 500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1000/computer.png 1000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1500/computer.png 1500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2000/computer.png 2000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2800/computer.png 2800w"
-                data-lazy-load-src="{{ site.cdn_url }}/assets/dist/img/computer.png"
-                alt="Computer emoji"
-                sizes="1em" />
-            </picture>
-          </figure>
+          {% responsive_image_block %}
+            path: '_assets/src/img/computer.png'
+            alt: Computer emoji
+            sizes: 1em
+            class: page-content__list-item__icon
+          {% endresponsive_image_block %}
 
-          <figure class="image-cursor__image image">
-            <picture class="image__image">
-              <img
-                data-lazy-load-srcset="{{ site.cdn_url }}/assets/dist/img/resized/500/superrb-office.jpg 500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1000/superrb-office.jpg 1000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1500/superrb-office.jpg 1500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2000/superrb-office.jpg 2000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2800/superrb-office.jpg 2800w"
-                data-lazy-load-src="{{ site.cdn_url }}/assets/dist/img/superrb-office.jpg"
-                alt="Superrb web design agency office action shot"
-                sizes="8em" />
-            </picture>
-          </figure>
+          {% responsive_image_block %}
+            path: '_assets/src/img/superrb-office.jpg'
+            alt: Superrb web design agency office action shot
+            sizes: 8em
+            class: image-cursor__image
+          {% endresponsive_image_block %}
         </a>
       </li>
 
@@ -52,33 +38,19 @@ seo:
         <a href="http://hyperurl.co/sven" target="_blank" class="page-content__list-item__link image-cursor link">
           Sven
 
-          <figure class="page-content__list-item__icon image">
-            <picture class="image__image">
-              <img
-                data-lazy-load-srcset="{{ site.cdn_url }}/assets/dist/img/resized/500/guitar.png 500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1000/guitar.png 1000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1500/guitar.png 1500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2000/guitar.png 2000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2800/guitar.png 2800w"
-                data-lazy-load-src="{{ site.cdn_url }}/assets/dist/img/guitar.png"
-                alt="Guitar emoji"
-                sizes="1em" />
-            </picture>
-          </figure>
+          {% responsive_image_block %}
+            path: '_assets/src/img/guitar.png'
+            alt: Guitar emoji
+            sizes: 1em
+            class: page-content__list-item__icon
+          {% endresponsive_image_block %}
 
-          <figure class="image-cursor__image image">
-            <picture class="image__image">
-              <img
-                data-lazy-load-srcset="{{ site.cdn_url }}/assets/dist/img/resized/500/sven.jpg 500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1000/sven.jpg 1000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/1500/sven.jpg 1500w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2000/sven.jpg 2000w,
-                    {{ site.cdn_url }}/assets/dist/img/resized/2800/sven.jpg 2800w"
-                data-lazy-load-src="{{ site.cdn_url }}/assets/dist/img/sven.jpg"
-                alt="Live photo of the band Sven performing live"
-                sizes="8em" />
-            </picture>
-          </figure>
+          {% responsive_image_block %}
+            path: '_assets/src/img/sven.jpg'
+            alt: Live photo of the band Sven performing live
+            sizes: 8em
+            class: image-cursor__image
+          {% endresponsive_image_block %}
         </a>
       </li>
     </ul>
