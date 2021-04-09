@@ -3,7 +3,78 @@
   publish = "_site"
   command = "gulp build"
   functions = "_functions"
+
+[context.staging.environment]
+  ENVIRONMENT = "staging"
+
+[context.deploy-preview.environment]
+  ENVIRONMENT = 'staging'
+
+[context.branch-preview.environment]
+  ENVIRONMENT = 'staging'
+
+[[redirects]]
+  from = "https://jessehigson.netlify.com/*"
+  to = "https://www.jessehigson.com/:splat"
+  status = 301
+
+[[redirects]]
+  from = "https://jessehigson.netlify.app/*"
+  to = "https://www.jessehigson.com/:splat"
+  status = 301
+
+[[redirects]]
+  from = "https://jessehigson/*"
+  to = "https://www.jessehigson.com/:splat"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Referrer-Policy = "no-referrer-when-downgrade, strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Content-Type = "image/webp"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.jpeg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.gif"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
+
 [[plugins]]
   package = "netlify-plugin-jekyll-cache"
