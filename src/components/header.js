@@ -1,11 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { graphql, Link, useStaticQuery } from 'gatsby'
 import MainHeader from '../types/main-header'
-import { NavContext } from './../context/nav-context-provider'
 import { SiteConfig } from '@superrb/gatsby-addons/types'
 import { useIsMobile } from '@superrb/gatsby-addons/hooks'
 
-const Header = () => {
+const Header = ({ siteTitle }) => {
   const data = useStaticQuery(graphql`
     query MainHeaderQuery {
       header: prismicMainHeader {
@@ -18,22 +17,7 @@ const Header = () => {
   `)
 
   const isMobile = useIsMobile()
-  const { navOpen } = useContext(NavContext)
   const headerElement = useRef(null)
-
-  const handleScroll = useCallback(() => {
-    requestAnimationFrame(() => {
-      //If header needs to be sticky, do it here
-    })
-  }, [])
-
-  useEffect(() => {
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: false })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [handleScroll])
 
   /** @type {MainHeader} header */
   const header = data?.header
@@ -51,11 +35,11 @@ const Header = () => {
     <header className="main-header" ref={headerElement}>
       <div className="main-header__container container container--flex">
         <Link to="/" className="main-header__logo">
-          Site Title
+          {siteTitle}
         </Link>
         <nav
           className="main-header__nav nav"
-          aria-hidden={isMobile && !navOpen}
+          aria-hidden={isMobile}
         >
           <ul className="nav__list">
             {header.data.navigation_items.map((link, index) => (

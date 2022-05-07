@@ -1,10 +1,21 @@
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import { SkipTo } from './skip-to'
 import Header from './header'
 import Footer from './footer'
+import { graphql, useStaticQuery } from 'gatsby'
 
 export const Layout = ({ children }) => {
+  const data = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `)
+
   return (
     <>
       <Helmet>
@@ -15,7 +26,7 @@ export const Layout = ({ children }) => {
         />
       </Helmet>
       <SkipTo />
-      <Header />
+      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <main>{children}</main>
       <Footer />
     </>

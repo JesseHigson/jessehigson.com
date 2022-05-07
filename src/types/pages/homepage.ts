@@ -22,6 +22,14 @@ export const query = graphql`
         target
       }
       contact_link_text
+      headshot {
+        gatsbyImageData(
+          layout: CONSTRAINED
+          imgixParams: { q: 85 }
+          placeholder: BLURRED
+          breakpoints: [750, 1080, 1366, 1920, 2048, 2560, 3840, 4096, 5120]
+        )
+      }
 
       meta_description
       meta_navigation_title

@@ -1,7 +1,7 @@
-import { graphql, Link } from 'gatsby'
+import { graphql } from 'gatsby'
 import React from 'react'
 import Homepage from '../types/pages/homepage'
-import { Seo } from '@superrb/gatsby-addons/components'
+import { Image, Seo } from '@superrb/gatsby-addons/components'
 
 const Index = ({ data }) => {
   /** @type {Homepage} page */
@@ -11,7 +11,7 @@ const Index = ({ data }) => {
   }
 
   const {
-    data: { page_title, contact_link, contact_link_text },
+    data: { page_title, contact_link, contact_link_text, headshot },
   } = page
 
   return (
@@ -20,6 +20,13 @@ const Index = ({ data }) => {
       <section className="hero">
         <div className="hero__container container">
           <div className="hero__content">
+            {headshot && (
+              <Image
+                image={headshot}
+                className="hero__headshot"
+              />
+            )}
+
             {page_title && <h1 className="hero__title">{page_title}</h1>}
 
             {contact_link && contact_link_text && (
