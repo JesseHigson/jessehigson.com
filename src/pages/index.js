@@ -2,6 +2,7 @@ import { graphql } from 'gatsby'
 import React from 'react'
 import Homepage from '../types/pages/homepage'
 import { Image, Seo } from '@superrb/gatsby-addons/components'
+import { RichText } from 'prismic-reactjs'
 
 const Index = ({ data }) => {
   /** @type {Homepage} page */
@@ -27,7 +28,11 @@ const Index = ({ data }) => {
               />
             )}
 
-            {page_title && <h1 className="hero__title">{page_title}</h1>}
+            {page_title && (
+              <h1 className="hero__title">
+                <RichText render={page_title.richText} />
+              </h1>
+            )}
 
             {contact_link && contact_link_text && (
               <a 

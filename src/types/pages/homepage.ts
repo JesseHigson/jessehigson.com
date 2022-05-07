@@ -13,7 +13,11 @@ export const query = graphql`
     type
     tags
     data {
-      page_title
+      page_title {
+        html
+        richText
+        text
+      }
       contact_link {
         uid
         url
