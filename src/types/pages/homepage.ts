@@ -14,6 +14,14 @@ export const query = graphql`
     tags
     data {
       page_title
+      contact_link {
+        uid
+        url
+        type
+        link_type
+        target
+      }
+      contact_link_text
 
       meta_description
       meta_navigation_title

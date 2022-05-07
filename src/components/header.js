@@ -51,17 +51,10 @@ const Header = () => {
 
   return (
     <header className="main-header" ref={headerElement}>
-      <div className="main-header__container">
+      <div className="main-header__container container container--flex">
         <Link to="/" className="main-header__logo">
-          Back To Home
+          Site Title
         </Link>
-        {isMobile && (
-          <MenuToggle
-            className="main-header__toggle"
-            label="Open Nav"
-            closeLabel="Close Nav"
-          />
-        )}
         <nav
           className="main-header__nav nav"
           aria-hidden={isMobile && !navOpen}

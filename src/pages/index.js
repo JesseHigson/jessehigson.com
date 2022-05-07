@@ -1,4 +1,4 @@
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import React from 'react'
 import Homepage from '../types/pages/homepage'
 import { Seo } from '@superrb/gatsby-addons/components'
@@ -11,13 +11,27 @@ const Index = ({ data }) => {
   }
 
   const {
-    data: { page_title },
+    data: { page_title, contact_link, contact_link_text },
   } = page
 
   return (
     <>
       <Seo data={page.data} />
-      {page_title && <h1>{page_title}</h1>}
+      <section className="hero">
+        <div className="hero__container container">
+          {page_title && <h1>{page_title}</h1>}
+
+          {contact_link && contact_link_text && (
+            <a 
+              href={contact_link?.url}
+              target={contact_link?.link?.target ? contact_link?.link?.target : ''}
+              className="hero__contact-link"
+            >
+              { contact_link_text }
+            </a>
+          )}
+        </div>
+      </section>
     </>
   )
 }
