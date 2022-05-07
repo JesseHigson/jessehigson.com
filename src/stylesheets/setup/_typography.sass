@@ -1,32 +1,47 @@
+@font-face
+  font-family: 'Inter'
+  src: url('/fonts/Inter-Regular.woff2') format('woff2')
+  font-weight: normal
+  font-style: normal
+  font-display: swap
+
+@font-face
+  font-family: 'Inter'
+  src: url('/fonts/Inter-Medium.woff2') format('woff2')
+  font-weight: 500
+  font-style: normal
+  font-display: swap
+
 body
   +primaryFont
   +clamp('font-size', 16px, 18px, 375px, 1440px)
   color: $black
   line-height: $baseline
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
 %h0, %h1, %h2, %h3, %h4, %h5
-  +secondaryFont
   display: block
-  font-weight: normal
-  letter-spacing: .05em
+  font-weight: $secondFontWeight
+  line-height: $baseline
 
 %h0
-  font-size: 2.25em
+  font-size: 2.888888888888889em
 
 %h1
-  font-size: 1.875em
+  font-size: 2.5em
 
 h1
   @extend %h1
 
 %h2
-  font-size: 1.25em
+  font-size: 2em
 
 h2
   @extend %h2
 
 %h3
-  font-size: 1.125em
+  font-size: 1.4em
 
 h3
   @extend %h3

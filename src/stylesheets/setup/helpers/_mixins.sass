@@ -16,9 +16,6 @@
 =primaryFont
   font-family: $primaryFont
 
-=secondaryFont
-  font-family: $secondaryFont
-
 =cover($padding: 0)
   bottom: $padding
   left: $padding
@@ -69,3 +66,10 @@
 =spacing
   +spacingTop
   +spacingBottom
+
+=opacityHover
+  opacity: 1
+  transition: opacity $transitionDuration $transitionTimingFunction
+
+  &:hover
+    opacity: $opacityHover

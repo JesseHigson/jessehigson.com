@@ -1,9 +1,7 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { graphql, Link, useStaticQuery } from 'gatsby'
 import MainHeader from '../types/main-header'
-import MenuToggle from './navigation/mobile-menu-toggle'
 import { NavContext } from './../context/nav-context-provider'
-import { linkResolver } from '../utils/link-resolver'
 import { SiteConfig } from '@superrb/gatsby-addons/types'
 import { useIsMobile } from '@superrb/gatsby-addons/hooks'
 
@@ -61,8 +59,8 @@ const Header = () => {
         >
           <ul className="nav__list">
             {header.data.navigation_items.map((link, index) => (
-              <li key={index} className="nav__item">
-                <Link to={linkResolver(link.link)} className="nav__link">
+              <li key={index} className="nav__list-item">
+                <Link to={link.link?.url} target="_blank" className="nav__list-link">
                   {link.label}
                 </Link>
               </li>

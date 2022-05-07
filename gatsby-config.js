@@ -18,36 +18,16 @@ module.exports = {
       resolve: `gatsby-plugin-preload`,
       options: {
         preloaders: [
-          // {
-          //   href: '/fonts/GT-America-Expanded-Bold.woff2',
-          //   as: 'font',
-          //   type: 'font/woff2',
-          // },
-          // {
-          //   href: '/fonts/GT-America-Extended-Regular.woff2',
-          //   as: 'font',
-          //   type: 'font/woff2',
-          // },
-          // {
-          //   href: '/fonts/GT-America-Extended-Bold.woff2',
-          //   as: 'font',
-          //   type: 'font/woff2',
-          // },
-          // {
-          //   href: '/fonts/montserrat-v23-latin-500.woff2',
-          //   as: 'font',
-          //   type: 'font/woff2',
-          // },
-          // {
-          //   href: '/fonts/montserrat-v23-latin-600.woff2',
-          //   as: 'font',
-          //   type: 'font/woff2',
-          // },
-          // {
-          //   href: '/fonts/montserrat-v23-latin-700.woff2',
-          //   as: 'font',
-          //   type: 'font/woff2',
-          // },
+          {
+            href: '/fonts/Inter-Regular.woff2',
+            as: 'font',
+            type: 'font/woff2',
+          },
+          {
+            href: '/fonts/Inter-Medium.woff2',
+            as: 'font',
+            type: 'font/woff2',
+          },
         ],
       },
     },
