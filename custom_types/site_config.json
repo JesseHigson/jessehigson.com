@@ -1,0 +1,34 @@
+{
+  "Main": {
+    "email_address": {
+      "type": "Text",
+      "config": {
+        "label": "Email Address"
+      }
+    },
+    "facebook_username": {
+      "type": "Text",
+      "config": {
+        "label": "Facebook Username"
+      }
+    },
+    "instagram_username": {
+      "type": "Text",
+      "config": {
+        "label": "Instagram Username"
+      }
+    },
+    "twitter_username": {
+      "type": "Text",
+      "config": {
+        "label": "Twitter Username"
+      }
+    },
+    "linkedin_username": {
+      "type": "Text",
+      "config": {
+        "label": "LinkedIn Username"
+      }
+    }
+  }
+}

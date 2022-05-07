@@ -1,0 +1,8 @@
+.animate-on-scroll
+  opacity: 0
+  transform: translateY(5vh)
+  transition: opacity $transitionDuration $transitionTimingFunction, transform $transitionDurationLong $transitionTimingFunction
+
+  &.animated
+    opacity: 1
+    transform: translateY(0)

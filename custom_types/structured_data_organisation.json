@@ -1,0 +1,58 @@
+{
+  "Main": {
+    "company_name": {
+      "type": "Text",
+      "config": {
+        "label": "Company Name"
+      }
+    },
+    "company_website": {
+      "type": "Text",
+      "config": {
+        "label": "Company Website"
+      }
+    },
+    "contact_point_email": {
+      "type": "Text",
+      "config": {
+        "label": "Contact Point - Email"
+      }
+    },
+    "contact_point_telephone": {
+      "type": "Text",
+      "config": {
+        "label": "Contact Point - telephone"
+      }
+    },
+    "address_street": {
+      "type": "Text",
+      "config": {
+        "label": "Address - Street"
+      }
+    },
+    "address_locality": {
+      "type": "Text",
+      "config": {
+        "label": "Address - Locality"
+      }
+    },
+    "address_region": {
+      "type": "Text",
+      "config": {
+        "label": "Address - Region"
+      }
+    },
+    "address_postal_code": {
+      "type": "Text",
+      "config": {
+        "label": "Address - Postal Code"
+      }
+    },
+    "address_country": {
+      "type": "Text",
+      "config": {
+        "label": "Address - Country"
+      }
+    }
+  }
+}

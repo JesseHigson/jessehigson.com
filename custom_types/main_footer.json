@@ -1,0 +1,25 @@
+{
+  "Main": {
+    "navigation_items": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "label": {
+            "type": "Text",
+            "config": {
+              "label": "Label"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "config": {
+              "label": "Link",
+              "select": null
+            }
+          }
+        },
+        "label": "Navigation Items"
+      }
+    }
+  }
+}

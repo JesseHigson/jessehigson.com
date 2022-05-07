@@ -1,0 +1,82 @@
+body
+  +primaryFont
+  +clamp('font-size', 16px, 18px, 375px, 1440px)
+  color: $black
+  line-height: $baseline
+
+%h0, %h1, %h2, %h3, %h4, %h5
+  +secondaryFont
+  display: block
+  font-weight: normal
+  letter-spacing: .05em
+
+%h0
+  font-size: 2.25em
+
+%h1
+  font-size: 1.875em
+
+h1
+  @extend %h1
+
+%h2
+  font-size: 1.25em
+
+h2
+  @extend %h2
+
+%h3
+  font-size: 1.125em
+
+h3
+  @extend %h3
+
+%h4
+  font-size: 1.0625em
+
+h4
+  @extend %h4
+
+%h5
+  font-size: 1em
+
+h5
+  @extend %h5
+
+%h6
+  font-size: 1em
+
+h6
+  @extend %h6
+
+p
+  display: block
+  margin: 0 0 $baseline
+  width: 100%
+
+.screenreader-text
+  left: 0
+  position: absolute
+  top: -9999vh
+
+a
+  color: inherit
+  transition: opacity .5s ease
+
+ul, ol
+  margin: 0 0 $baseline
+
+ol
+  margin-left: $baseline
+
+ul
+  list-style: disc inside
+
+code
+  font-family: monospace
+
+small
+  font-size: .875em
+
+button
+  line-height: inherit

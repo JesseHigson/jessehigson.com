@@ -1,0 +1,34 @@
+img,
+picture,
+picture source
+  display: block
+  opacity: 1
+  transition: opacity 1s ease, transform 1s .25s ease
+
+  source,
+  img
+    width: 100%
+
+.image
+  overflow: hidden
+
+  img,
+  picture source
+    &[data-lazy-load-src],
+    &[data-lazy-load-srcset]
+      opacity: 0
+
+  &__image
+    width: 100%
+
+.objFit, .objFit picture
+  height: 100%
+  overflow: hidden
+  position: relative
+  width: 100%
+  img
+    display: block
+    height: 100%
+    width: 100%
+
+    object-fit: cover
