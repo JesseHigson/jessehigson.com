@@ -2,12 +2,25 @@
   &__link
     +opacityHover
     display: flex
+    flex-wrap: wrap
     text-decoration: none
 
     &-icon
       height: 1em
-      margin-right: .5ch
-      width: auto
+      margin-right: .5em
+      width: 1em
 
     &-label
       font-weight: $secondFontWeight
+      margin-bottom: .5em
+
+      @media (min-width: $smallDesktop)
+        margin-bottom: 0
+
+    &-content
+      flex: 0 0 100%
+      padding-left: 1.5em
+
+      @media (min-width: $smallDesktop)
+        flex-basis: auto
+        padding-left: 0
