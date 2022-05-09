@@ -3,6 +3,8 @@ import React from 'react'
 import Homepage from '../types/pages/homepage'
 import { Image, Seo } from '@superrb/gatsby-addons/components'
 import { RichText } from 'prismic-reactjs'
+import Nav from '../components/nav'
+import { useIsMobile } from '@superrb/gatsby-addons/hooks'
 
 const Index = ({ data }) => {
   /** @type {Homepage} page */
@@ -14,6 +16,8 @@ const Index = ({ data }) => {
   const {
     data: { page_title, contact_link, contact_link_text, headshot },
   } = page
+
+  const isMobile = useIsMobile()
 
   return (
     <>
@@ -37,11 +41,15 @@ const Index = ({ data }) => {
             {contact_link && contact_link_text && (
               <a 
                 href={contact_link?.url}
-                target={contact_link?.link?.target ? contact_link?.link?.target : ''}
+              target={contact_link?.link?.target ? contact_link?.link?.target : ''}
                 className="hero__contact-link"
               >
                 { contact_link_text }
               </a>
+            )}
+
+            {isMobile && (
+              <Nav classes="hero__nav" />
             )}
           </div>
         </div>

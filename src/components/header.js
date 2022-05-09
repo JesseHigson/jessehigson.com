@@ -3,6 +3,7 @@ import { graphql, Link, useStaticQuery } from 'gatsby'
 import MainHeader from '../types/main-header'
 import { SiteConfig } from '@superrb/gatsby-addons/types'
 import { useIsMobile } from '@superrb/gatsby-addons/hooks'
+import Nav from './nav'
 
 const Header = ({ siteTitle }) => {
   const data = useStaticQuery(graphql`
@@ -37,20 +38,10 @@ const Header = ({ siteTitle }) => {
         <Link to="/" className="main-header__logo">
           {siteTitle}
         </Link>
-        <nav
-          className="main-header__nav nav"
-          aria-hidden={isMobile}
-        >
-          <ul className="nav__list">
-            {header.data.navigation_items.map((link, index) => (
-              <li key={index} className="nav__list-item">
-                <Link to={link.link?.url} target="_blank" className="nav__list-link">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+
+        {!isMobile && (
+          <Nav classes="main-header__nav" />
+        )}
       </div>
     </header>
   )

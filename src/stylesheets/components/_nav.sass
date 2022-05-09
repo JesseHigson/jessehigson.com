@@ -4,9 +4,13 @@
 
   &__list
     display: flex
-    justify-content: flex-end
+    flex-wrap: wrap
     list-style: none
     margin: 0
+
+    @media (min-width: $smallDesktop)
+      flex-wrap: nowrap
+      justify-content: flex-end
 
     &-item
       &:not(:last-child)
