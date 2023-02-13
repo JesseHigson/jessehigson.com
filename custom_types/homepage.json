@@ -1,9 +1,9 @@
 {
-  "Main" : {
-    "uid" : {
-      "type" : "UID",
-      "config" : {
-        "label" : "Slug"
+  "Main": {
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "Slug"
       }
     },
     "page_title": {
@@ -14,43 +14,65 @@
         "label": "Page Title",
         "placeholder": "Page Title"
       }
+    },
+    "contact_link": {
+      "type": "Link",
+      "config": {
+        "allowTargetBlank": true,
+        "label": "Contact Link",
+        "select": null
+      }
+    },
+    "contact_link_text": {
+      "type": "Text",
+      "config": {
+        "label": "Contact Link Text"
+      }
+    },
+    "headshot": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [],
+        "label": "Headshot"
+      }
     }
   },
-  "Meta" : {
-    "meta_title" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Meta Title",
-        "placeholder" : "Page Meta Title"
+  "Meta": {
+    "meta_title": {
+      "type": "Text",
+      "config": {
+        "label": "Meta Title",
+        "placeholder": "Page Meta Title"
       }
     },
-    "meta_navigation_title" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Meta Navigation Title",
-        "placeholder" : "Title for Navigation and Breadcrumbs"
+    "meta_navigation_title": {
+      "type": "Text",
+      "config": {
+        "label": "Meta Navigation Title",
+        "placeholder": "Title for Navigation and Breadcrumbs"
       }
     },
-    "meta_description" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Meta Description",
-        "placeholder" : "Brief description of page content"
+    "meta_description": {
+      "type": "Text",
+      "config": {
+        "label": "Meta Description",
+        "placeholder": "Brief description of page content"
       }
     },
-    "meta_robots" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Meta Robots",
-        "placeholder" : "noindex, nofollow"
+    "meta_robots": {
+      "type": "Text",
+      "config": {
+        "label": "Meta Robots",
+        "placeholder": "noindex, nofollow"
       }
     },
-    "meta_image" : {
-      "type" : "Image",
-      "config" : {
-        "constraint" : { },
-        "thumbnails" : [ ],
-        "label" : "Meta Image"
+    "meta_image": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [],
+        "label": "Meta Image"
       }
     }
   }
