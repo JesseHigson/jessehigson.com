@@ -15,20 +15,6 @@
         "placeholder": "Page Title"
       }
     },
-    "contact_link": {
-      "type": "Link",
-      "config": {
-        "allowTargetBlank": true,
-        "label": "Contact Link",
-        "select": null
-      }
-    },
-    "contact_link_text": {
-      "type": "Text",
-      "config": {
-        "label": "Contact Link Text"
-      }
-    },
     "headshot": {
       "type": "Image",
       "config": {

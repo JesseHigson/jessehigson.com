@@ -18,14 +18,6 @@ export const query = graphql`
         richText
         text
       }
-      contact_link {
-        uid
-        url
-        type
-        link_type
-        target
-      }
-      contact_link_text
       headshot {
         gatsbyImageData(
           layout: CONSTRAINED
