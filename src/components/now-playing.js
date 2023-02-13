@@ -10,13 +10,13 @@ export const NowPlaying = ({ userName, apiKey }) => {
     fetch(
       `https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=${userName}&api_key=${apiKey}&limit=1&nowplaying=true&format=json`,
     )
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           return response.json()
         }
         throw new Error('error')
       })
-      .then(data => updateLfmData(data))
+      .then((data) => updateLfmData(data))
       .catch(() =>
         updateLfmData({ error: 'Whoops! Something went wrong with Last.fm' }),
       )
@@ -34,7 +34,7 @@ export const NowPlaying = ({ userName, apiKey }) => {
       return null
     }
 
-    const image = track[0].image.find(i => {
+    const image = track[0].image.find((i) => {
       return i.size === 'extralarge'
     })
 

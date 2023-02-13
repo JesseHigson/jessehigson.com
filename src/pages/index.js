@@ -26,12 +26,7 @@ const Index = ({ data }) => {
       <section className="hero">
         <div className="hero__container container">
           <div className="hero__content">
-            {headshot && (
-              <Image
-                image={headshot}
-                className="hero__headshot"
-              />
-            )}
+            {headshot && <Image image={headshot} className="hero__headshot" />}
 
             {page_title && (
               <h1 className="hero__title">
@@ -39,9 +34,7 @@ const Index = ({ data }) => {
               </h1>
             )}
 
-            {isMobile && (
-              <Nav classes="hero__nav" />
-            )}
+            {isMobile && <Nav classes="hero__nav" />}
           </div>
         </div>
       </section>

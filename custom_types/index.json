@@ -1,26 +1,32 @@
-[{
-  "id": "homepage",
-  "name": "Homepage",
-  "repeatable": false,
-  "value": "homepage.json"
-}, {
-  "id": "main_header",
-  "name": "Main Header",
-  "repeatable": false,
-  "value": "main_header.json"
-}, {
-  "id": "main_footer",
-  "name": "Main Footer",
-  "repeatable": false,
-  "value": "main_footer.json"
-}, {
-  "id": "site_config",
-  "name": "Site Config",
-  "repeatable": false,
-  "value": "site_config.json"
-}, {
-  "id": "structured_data_organisation",
-  "name": "Structured Data Organisation",
-  "repeatable": false,
-  "value": "structured_data_organisation.json"
-}]
+[
+  {
+    "id": "homepage",
+    "name": "Homepage",
+    "repeatable": false,
+    "value": "homepage.json"
+  },
+  {
+    "id": "main_header",
+    "name": "Main Header",
+    "repeatable": false,
+    "value": "main_header.json"
+  },
+  {
+    "id": "main_footer",
+    "name": "Main Footer",
+    "repeatable": false,
+    "value": "main_footer.json"
+  },
+  {
+    "id": "site_config",
+    "name": "Site Config",
+    "repeatable": false,
+    "value": "site_config.json"
+  },
+  {
+    "id": "structured_data_organisation",
+    "name": "Structured Data Organisation",
+    "repeatable": false,
+    "value": "structured_data_organisation.json"
+  }
+]

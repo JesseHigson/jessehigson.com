@@ -39,9 +39,7 @@ const Header = ({ siteTitle }) => {
           {siteTitle}
         </Link>
 
-        {!isMobile && (
-          <Nav classes="main-header__nav" />
-        )}
+        {!isMobile && <Nav classes="main-header__nav" />}
       </div>
     </header>
   )

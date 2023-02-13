@@ -3,7 +3,7 @@ import { graphql, Link, useStaticQuery } from 'gatsby'
 import MainHeader from '../types/main-header'
 import { SiteConfig } from '@superrb/gatsby-addons/types'
 
-const Nav = ({classes}) => {
+const Nav = ({ classes }) => {
   const data = useStaticQuery(graphql`
     query NavQuery {
       header: prismicMainHeader {
@@ -32,7 +32,11 @@ const Nav = ({classes}) => {
       <ul className="nav__list">
         {header.data.navigation_items.map((link, index) => (
           <li key={index} className="nav__list-item">
-            <Link to={link.link?.url} target="_blank" className="nav__list-link">
+            <Link
+              to={link.link?.url}
+              target="_blank"
+              className="nav__list-link"
+            >
               {link.label}
             </Link>
           </li>
