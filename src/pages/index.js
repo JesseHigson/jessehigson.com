@@ -1,4 +1,4 @@
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import React from 'react'
 import Homepage from '../types/pages/homepage'
 import { Image, Seo } from '@superrb/gatsby-addons/components'
@@ -14,7 +14,7 @@ const Index = ({ data }) => {
   }
 
   const {
-    data: { page_title, headshot },
+    data: { page_title, headshot, projects_title, projects },
   } = page
 
   const isMobile = useIsMobile()
@@ -36,6 +36,49 @@ const Index = ({ data }) => {
 
             {isMobile && <Nav classes="hero__nav" />}
           </div>
+        </div>
+      </section>
+
+      <section className="projects">
+        <div className="projects__container container">
+          {projects_title && (
+            <h3 className="projects__title">{projects_title}</h3>
+          )}
+
+          {projects && (
+            <ul className="projects__list">
+              {projects.map((project, index) => (
+                <li key={index} className="projects__list-item project-item">
+                  {project?.project?.document?.data?.link && (
+                    <Link
+                      to={project?.project?.document?.data?.link?.url}
+                      target="_blank"
+                      className="project-item__link"
+                    >
+                      {project?.project?.document?.data?.image && (
+                        <Image
+                          image={project?.project?.document?.data?.image}
+                          className="project-item__image"
+                        />
+                      )}
+
+                      {project?.project?.document?.data?.title && (
+                        <h5 className="project-item__title">
+                          {project?.project?.document?.data?.title}
+                        </h5>
+                      )}
+
+                      {project?.project?.document?.data?.description && (
+                        <h6 className="project-item__description">
+                          {project?.project?.document?.data?.description}
+                        </h6>
+                      )}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
     </>

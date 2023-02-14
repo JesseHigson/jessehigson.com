@@ -24,6 +24,31 @@
       }
     }
   },
+  "Projects": {
+    "projects_title": {
+      "type": "Text",
+      "config": {
+        "label": "Projects Title",
+        "placeholder": "Projects"
+      }
+    },
+    "projects": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "project": {
+            "type": "Link",
+            "config": {
+              "select": "document",
+              "customtypes": ["project"],
+              "label": "Project"
+            }
+          }
+        },
+        "label": "Projects"
+      }
+    }
+  },
   "Meta": {
     "meta_title": {
       "type": "Text",

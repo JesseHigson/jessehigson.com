@@ -1,0 +1,24 @@
+.projects
+  +spacingBottom
+
+  &__title
+    font-weight: $secondFontWeight
+    margin-bottom: 1em
+
+  &__list
+    display: grid
+    grid-gap: 3em 1.5em
+    grid-template-columns: repeat(3, 1fr)
+    list-style: none
+    margin: 0
+
+.project-item
+  &__link
+    +opacityHover
+    text-decoration: none
+
+  &__image
+    aspect-ratio: 4 / 3
+
+  &__title
+    margin: .5em 0
