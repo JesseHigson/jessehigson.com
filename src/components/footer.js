@@ -2,6 +2,8 @@ import React from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 import MainFooter from '../types/main-footer'
 import { NowPlaying } from './now-playing'
+import Nav from './nav'
+import { useIsMobile } from '@superrb/gatsby-addons/hooks'
 
 const Footer = () => {
   const data = useStaticQuery(graphql`
@@ -14,31 +16,23 @@ const Footer = () => {
 
   /** @type {MainFooter} footer */
   const footer = data?.footer
+
   if (!footer) {
     return null
   }
 
+  const isMobile = useIsMobile()
+
   return (
     <footer className="footer">
       <div className="footer__container container container--flex">
+        {isMobile && <Nav classes="footer__nav" />}
+
         <NowPlaying
           userName={process.env.GATSBY_LAST_FM_USERNAME}
           apiKey={process.env.GATSBY_LAST_FM_API_KEY}
+          classes="footer__now-playing"
         />
-
-        {footer.data.contact_link && footer.data.contact_link_text && (
-          <a
-            href={footer.data.contact_link?.url}
-            target={
-              footer.data.contact_link?.link?.target
-                ? footer.data.contact_link?.link?.target
-                : ''
-            }
-            className="footer__contact-link"
-          >
-            {footer.data.contact_link_text}
-          </a>
-        )}
       </div>
     </footer>
   )

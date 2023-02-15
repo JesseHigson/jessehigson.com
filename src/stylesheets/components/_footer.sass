@@ -2,6 +2,28 @@
   padding: 1.5em 0
   width: 100%
 
+  &__container
+    flex-wrap: wrap
+
+    @media (min-width: $smallDesktop)
+      flex-wrap: nowrap
+
   &__contact-link
     +opacityHover
     text-decoration: none
+
+  &__nav,
+  &__now-playing
+    flex: 0 0 100%
+
+    @media (min-width: $smallDesktop)
+      flex-basis: auto
+
+  &__nav
+    margin-bottom: 1.5em
+
+    .nav__list-item
+      flex: 0 0 100%
+
+      &:not(:last-child)
+        margin-bottom: .5em

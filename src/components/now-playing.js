@@ -2,7 +2,7 @@ import { useIsMobile } from '@superrb/gatsby-addons/hooks'
 import { Link } from 'gatsby'
 import React, { useState, useEffect } from 'react'
 
-export const NowPlaying = ({ userName, apiKey }) => {
+export const NowPlaying = ({ userName, apiKey, classes }) => {
   const isMobile = useIsMobile()
   const [lfmData, updateLfmData] = useState({})
 
@@ -43,7 +43,7 @@ export const NowPlaying = ({ userName, apiKey }) => {
     const url = track[0].url
 
     return (
-      <div className="now-playing">
+      <div className={`now-playing ${classes ? classes : ''}`}>
         <Link
           to={url}
           rel="nofollow noopener"

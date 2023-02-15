@@ -3,8 +3,6 @@ import React from 'react'
 import Homepage from '../types/pages/homepage'
 import { Image, Seo } from '@superrb/gatsby-addons/components'
 import { RichText } from 'prismic-reactjs'
-import Nav from '../components/nav'
-import { useIsMobile } from '@superrb/gatsby-addons/hooks'
 
 const Index = ({ data }) => {
   /** @type {Homepage} page */
@@ -16,8 +14,6 @@ const Index = ({ data }) => {
   const {
     data: { page_title, headshot, projects_title, projects },
   } = page
-
-  const isMobile = useIsMobile()
 
   return (
     <>
@@ -33,8 +29,6 @@ const Index = ({ data }) => {
                 <RichText render={page_title.richText} />
               </h1>
             )}
-
-            {isMobile && <Nav classes="hero__nav" />}
           </div>
         </div>
       </section>

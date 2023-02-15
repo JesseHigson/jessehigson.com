@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql, Link, useStaticQuery } from 'gatsby'
 import MainHeader from '../types/main-header'
+import MainFooter from '../types/main-footer'
 import { SiteConfig } from '@superrb/gatsby-addons/types'
 
 const Nav = ({ classes }) => {
@@ -8,6 +9,9 @@ const Nav = ({ classes }) => {
     query NavQuery {
       header: prismicMainHeader {
         ...MainHeader
+      }
+      footer: prismicMainFooter {
+        ...MainFooter
       }
       config: prismicSiteConfig {
         ...SiteConfig
@@ -17,13 +21,14 @@ const Nav = ({ classes }) => {
 
   /** @type {MainHeader} header */
   const header = data?.header
-  if (!header) {
-    return null
-  }
 
   /** @type {SiteConfig} config */
   const config = data?.config
-  if (!config) {
+
+  /** @type {MainFooter} footer */
+  const footer = data?.footer
+
+  if (!header || !config) {
     return null
   }
 
@@ -41,6 +46,20 @@ const Nav = ({ classes }) => {
             </Link>
           </li>
         ))}
+
+        {footer?.data?.contact_link && footer?.data?.contact_link_text && (
+          <a
+            href={footer.data.contact_link?.url}
+            target={
+              footer.data.contact_link?.link?.target
+                ? footer.data.contact_link?.link?.target
+                : ''
+            }
+            className="footer__contact-link"
+          >
+            {footer.data.contact_link_text}
+          </a>
+        )}
       </ul>
     </nav>
   )
