@@ -67,6 +67,28 @@
   +spacingTop
   +spacingBottom
 
+=spacingTopDouble
+  padding-top: ($blockSpacerMobile * 2)
+
+  @media (min-width: $tablet)
+    padding-top: ($blockSpacerTablet * 2)
+
+  @media (min-width: $smallDesktop)
+    padding-top: ($blockSpacerDesktop * 2)
+
+=spacingBottomDouble
+  padding-bottom: ($blockSpacerMobile * 2)
+
+  @media (min-width: $tablet)
+    padding-bottom: ($blockSpacerTablet * 2)
+
+  @media (min-width: $smallDesktop)
+    padding-bottom: ($blockSpacerDesktop * 2)
+
+=spacingDouble
+  +spacingTopDouble
+  +spacingBottomDouble
+
 =opacityHover
   opacity: 1
   transition: opacity $transitionDuration $transitionTimingFunction
