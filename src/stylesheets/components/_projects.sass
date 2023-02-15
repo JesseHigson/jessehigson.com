@@ -1,5 +1,10 @@
 .projects
   +spacingBottom
+  pointer-events: none
+
+  &:hover
+    .project-item__link
+      opacity: $opacityHover
 
   &__title
     font-weight: $secondFontWeight
@@ -18,13 +23,17 @@
     @media (min-width: $smallDesktop)
       grid-template-columns: repeat(3, 1fr)
 
-.project-item
-  &__link
-    +opacityHover
-    text-decoration: none
+  .project-item
+    &__link
+      display: block
+      pointer-events: auto
+      text-decoration: none
 
-  &__image
-    aspect-ratio: 4 / 3
+      &:hover
+        opacity: 1
 
-  &__title
-    margin: .5em 0
+    &__image
+      aspect-ratio: 4 / 3
+
+    &__title
+      margin: .5em 0
