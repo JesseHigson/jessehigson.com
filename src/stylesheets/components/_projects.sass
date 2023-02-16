@@ -1,10 +1,5 @@
 .projects
   +spacingBottom
-  pointer-events: none
-
-  &:hover
-    .project-item__link
-      opacity: $opacityHover
 
   &__title
     font-weight: $secondFontWeight
@@ -26,14 +21,24 @@
   .project-item
     &__link
       display: block
-      pointer-events: auto
       text-decoration: none
-
-      &:hover
-        opacity: 1
 
     &__image
       aspect-ratio: 4 / 3
 
     &__title
       margin: .5em 0
+
+  @media (hover: hover) and (pointer: fine)
+    pointer-events: none
+
+    &:hover
+      .project-item__link
+        opacity: $opacityHover
+
+    .project-item
+      pointer-events: auto
+
+      &__link
+        &:hover
+          opacity: 1
