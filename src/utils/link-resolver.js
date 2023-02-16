@@ -9,7 +9,7 @@
  *
  * @returns URL for the provided Prismic document.
  */
-exports.linkResolver = doc => {
+exports.linkResolver = (doc) => {
   switch (doc.type) {
     default:
       return '/'

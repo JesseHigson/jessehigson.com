@@ -31,8 +31,8 @@ export const onRouteUpdate = ({ location: { pathname } }) => {
     `page ${[
       ...pathname
         .split('/')
-        .filter(x => !!x)
-        .map(slug => `page--${slug}`),
+        .filter((x) => !!x)
+        .map((slug) => `page--${slug}`),
     ].join(' ')}`,
   )
 }
