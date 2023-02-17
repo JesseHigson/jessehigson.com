@@ -41,11 +41,15 @@ export const NowPlaying = ({ userName, apiKey, classes }) => {
     const trackName = track[0].name
     const artistName = track[0].artist['#text']
     const url = track[0].url
+    const libraryUrl = url.replace(
+      '/music/',
+      `/user/${userName}/library/music/`,
+    )
 
     return (
       <div className={`now-playing ${classes ? classes : ''}`}>
         <Link
-          to={url}
+          to={libraryUrl}
           rel="nofollow noopener"
           target="_blank"
           className="now-playing__link"
